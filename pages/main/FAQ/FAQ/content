@@ -1,0 +1,695 @@
+.. contents::
+
+Getting Started Questions
+=========================
+
+Which Implementation Should I Use?
+----------------------------------
+
+In short, {{Open Dylan}} is more complete, but {{Gwydion Dylan}}
+generates faster code. If you use Microsoft Windows, it's recommended
+to use Open Dylan, because it includes an IDE.
+
+See the {{Dylan Implementations}} page for more information.
+
+What Development Environments are Available?
+--------------------------------------------
+
+Open Dylan includes a full-featured IDE with an interactor (REPL),
+integrated editor, debugger, project wizard, etc.  The IDE is only
+available on Windows.
+
+Open Dylan also supports development in Emacs via SLIME.  We have
+implemented a Dylan back-end for SLIME called DSWANK.
+
+Gwydion Dylan only supports command-line development.
+
+See the {{Development Environments}} page for details.
+
+What Resources Are Available to Learn From?
+-------------------------------------------
+
+See the {{Learning Dylan}} page.
+
+How Can I Get Involved?
+-----------------------
+
+There is no shortage of projects to work on.  Here are a few ideas:
+
+* A debugger nub for Linux
+
+* True 64-bit support (for either Open Dylan or Gwydion Dylan)
+  (FreeBSD/amd64 and Linux/x86_64 with Open Dylan done with C back
+  end, except for threads support, look at bug 7270)
+
+* Finish support for DUIM on Linux
+
+* Improve the documentation (this wiki, opendylan.org, or the
+  reference docs)
+
+* Proselytize Dylan...make converts...go door to door if you have to.
+
+* Write the killer app in Dylan.
+
+* Improve the many libraries or add new ones.
+
+* Be the Dylan maintainer for a specific Linux distro; create
+  packages, field bug reports, etc.
+
+
+* Create a "dylanscript" library/module that provides a collection of
+  useful basic stuff for scripting: command line parsing, standard
+  I/O, environment variables, string hacking, regular expressions,
+  etc.
+
+* Create a wrapper script that makes "#!/usr/bin/opendylan"
+  possible. i.e., so it's as easy to use Dylan "scripts" as perl or
+  Python scripts. See for example D's "rdmd" command
+
+* Unicode support
+
+* How about an Eclipse plugin?
+
+Dylan Language Questions
+========================
+
+General Questions
+-----------------
+
+What is this language? I have never heard of it before.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+One reductionist breakdown might be: Dylan = Scheme + CLOS + Smalltalk
++ Pascal
+
+* Scheme for basic semantics.
+* Common Lisp Object System (CLOS) for the object system, and exception handling.
+* Smalltalk for "objects all the way down".
+* A mix of C and Pascal for syntax.
+
+An oversimplified historical view is that Dylan was originated by
+Apple as an attempt to bring some of the power of the Lisp family of
+languages to mainstream programming, by:
+
+* Rationalizing some historical baggage (e.g., replacing multiple
+  different sequence functions with "choose")
+* Dropping some of the more complex/advanced/tangled features
+* Making application/component delivery and deployment easier
+* Adding a more familiar syntax
+
+Dylan is often spoken of as a "replacement for C++", meaning that it
+has all the industrial-strength features, power, and flexibility of
+C++, but with the benefits of being thoughtfully designed from the
+ground up, rather than being kludged together over time.
+
+See also, {{About Dylan}}.
+
+
+Is Dylan a functional languages?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+The functional community is split into two camps: The purists and the
+non-purists. A lot of Dylan code is written in a purely functional
+style.  Dylan does not preclude doing this, and in fact, it is easy to
+do so.  However, purists could rightfully point out that Dylan does
+not *require* a functional style.  Rule of thumb: If on a list of
+functional languages, for example, Common Lisp, Scheme or OCaml, are
+mentioned, then Dylan certainly should be too, because like them Dylan
+has all the features needed to be used in a purely functional style,
+but doesn't force you into programming that way.
+
+Does Dylan suffer the same flaw as C++ in presence of "diamond inheritance"?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+According to the `Dylan Reference Manual (DRM) </static/books/drm/>`_:
+
+    If a superclass is inherited through multiple paths, its slots are
+    inherited once. For example, if class A has direct superclasses B and
+    C, and both B and C have D as a direct superclass, A inherits from D
+    both through B and through C, but the slots defined by D are only
+    counted once. Because of this, multiple inheritance does not by itself
+    create any duplicates among the getters and setters.
+
+So diamonds are OK. Mixin clashes (C inherits slot "count" of type
+<integer> from both object A and object B) aren't allowed, though:
+
+    Note that two classes that specify a slot with the same getter or
+    setter generic function are disjoint; they can never have a common
+    subclass and no object can be an instance of both classes.
+
+Note that it is no problem to have different generic getter or setter
+functions with the same name, you can always rename the function on
+import to the module.
+
+
+When defining a method on my class <baz> I get errors as soon as I try to access its methods.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ define method quux(baz :: <baz>)
+   count-feet();     // error here
+   baz.count-feet(); // here too
+ end;
+
+Both errors are due to improper method access.  The first error is
+(indirectly) telling you that count-feet needs an argument; it should
+be written as
+
+   count-feet(baz);
+
+The second error is an interesting one: the {{Dylan Language}} has
+some syntactic sugar that allows this transformation:
+
+  count-feet(baz) => baz.count-feet  // no parentheses on the right-hand call
+
+When you add the parentheses, you are, surprisingly, informing the
+compiler that the result of baz.count-feet is a ''function'' to be
+called, so you're actually making two function calls: fetching the
+function of baz.count-feet and then calling that function.  Quick fix:
+drop the parentheses::
+
+
+  baz.count-feet
+
+to get the result or to perform the operation.
+
+Actually the two forms are competely interchangeable::
+
+ "Hello World!".size <===> size("Hello World!")
+
+this makes an interesting complex number notation possible::
+
+ let c :: <complex> = 3 + (5).i; // where ''i'' is is a self-defined function to
+                                 // convert a real to an imaginary number
+
+The parentheses around the "5" are needed so that no attempt is made
+to parse "5.i" as a floating point number.
+
+
+Dylan class definitions only seem to mention data that is contained in instances. How do I define the methods for a class?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Dylan's approach to object orientation takes a different tack than
+many other languages.  In C++, Java or Smalltalk, methods and data
+members are part of the class, so that the class is its own small
+namespace, controlling the visibility of the names defined within.  In
+Dylan, slot names exist at the same level as classes and other global
+declarations, and access to them is controlled using the module system
+just like any other name.
+
+Object methods are not "under" objects in Dylan either.  Instead,
+methods belong to {{Generic Functions}}, functions that can be
+specialized on the types of one or more of their arguments.  The
+{{MultiMethods}} page describes how this works.
+
+
+What is an "abstract instantiable class"? Isn't that a contradiction?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Dylan's ``define class`` supports the ``abstract`` adjective, which by
+default means that the class is not instantiable.  However, it is
+possible to override ``make`` so that it instantiates a concrete
+subclass of the named class::
+
+  define open abstract class <abstract-foo> (<object>)
+  end;
+
+  define class <concrete-foo> (<abstract-foo>)
+  end;
+
+  define sealed method make
+      (class == <abstract-foo>, #rest key-value-pairs, #key, #all-keys)
+   => (instance :: <abstract-foo>)
+    apply(make, <concrete-foo>, key-value-pairs)
+  end;
+
+This allows the abstract class to be left *open* (and therefore
+extensible by users of the library) while still providing an efficient
+
+default *sealed* concrete class.  To ensure clean interfaces, often
+the name of the concrete class is not exported from the library.
+
+An real life example is ``<string>``.  ``make(<string>, size: 3)``
+actually returns an instance of ``<byte-string>``.
+
+
+Does Dylan support procedural macros?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Dylan doesn't have Lisp-style procedural macros as standard. {{Open
+Dylan}} has them internally to the compiler; they're not available
+to users.
+
+Dylan macros are still powerful; they're clean, modular, and can
+handle iteration and recursion. They can look like function calls,
+bare words, or more complex structures. Like Lisp, much of the
+language such as defining classes, defining methods, for loops and
+resource locks are written as macros.
+
+
+Does Dylan have a Meta Object Protocol?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+No. Well, there may be one hidden inside the compiler, but you won't
+be able to access it.  First, unless the compiler takes some really
+heroic measures to optimize, a MOP is somewhat of a
+performance-killer, albeit incredibly powerful.  This is in conflict
+with Dylan's speed objective.
+
+
+In what way is Dylan a "dynamic" language?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Dynamic Languages Group at MIT says that it's all about having a
+{{MetaObjectProtocol}} http://www.ai.mit.edu/projects/dynlangs,
+but in light of the previous answer Dylan must mean something else.
+
+What counts as "dynamic" is in the eye of the beholder, depending on
+your point of view.  While Dylan is a dynamic language, and is
+certainly more dynamic than C/C++, it is (by design) *less* dynamic
+than languages such as Common Lisp, Scheme, and Smalltalk.
+
+We believe that Dylan is at a "sweet spot" in the static-dynamic
+programming language continuum with respect to general-purpose
+programming tasks.  (Additionally, Dylan leaves the door open to the
+addition of more dynamic facilities in future revisions of the
+language, should the need arise.)
+
+
+Why should I use Dylan rather than Lisp?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+I can see its advantages over C++ or Java, but once you learn Lisp
+syntax is Dylan still easier or better to work with and if so, why?
+
+Dylan has most of the strengths of Common Lisp, with a few additional advantages:
+
+
+* Dylan compilers are designed for application delivery, producing a
+  standalone executable (possibly split over a number of DLLs).  Some
+  commercial Common Lisp compilers have this capability, but most free
+  compilers do not.
+
+* Dylan's macro system is higher-level, and hygienic, giving clean
+  referential transparency in the default case but allowing exceptions
+  when needed.
+
+* Dylan has a completely integrated object system, in which every
+  object is an instance of some class.
+
+* Dylan lists, vectors, arrays, etc. are designed around a
+  rationalized <collection> class hierarchy.
+
+* Programs written using Dylan's infix syntax are probably easier to
+  read for people unfamiliar with the language than Lisp programs are.
+  (Of course, functional style and multimethods will still confuse
+  people, but you can't have everything).
+
+* Dylan's module system is simpler, more hygenic, and just as powerful
+  as Common Lisp's package system.
+
+
+Can Dylan interface with C code?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Both Open Dylan and Gwydion Dylan provide full-strength facilities to
+interface with C code. C functions can be called from Dylan and Dylan
+callbacks can be passed to C API functions. {{Open Dylan}} can use the
+C-FFI or COM objects, and {{Gwydion Dylan}} can just wrap C headers
+with its {{Melange}} tool.
+
+
+Why Don't More People Use Dylan?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Historically speaking, just as Dylan was becoming mature enough for
+widespread use, Java was introduced and targeted at the extremely hot
+area of internet programming.  Java was successful enough in its own
+niche, strongly supported by Sun Microsystems, and "good enough" for a
+lot of things, so that it managed to win mindshare over many
+programming languages that could be considered superior.  This, and
+the financial challenges Apple was experiencing at the time, led them
+to cancel the {{Apple Dylan}} project rather than spend the money
+required to promote the language.
+
+Today, Dylan doesn't have the level of support for multiple platforms
+that an industrial strength language implementation needs to have
+because its development hasn't kept up with the pace of hardware and
+OS changes.  We are working to fix that.
+
+
+Dispatching
+-----------
+
+Why does Dylan allow dispatching on instances?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In Dylan it gets used for separating public abstract interface classes
+and private concrete implementation classes.  See {{How to build a
+mechanism for dynamic dispatching?}}
+
+What's the use of an abstract interface if only one implementation can exist?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There can be situations where it is useful to have the decision of
+what concrete class to return made at runtime, without the client
+class having to know the details.  For example, in {{DUIM}} when you
+say  ::
+
+  make(<button>, ...)
+
+you actually get an instance of a different concrete subclass of
+<button> depending on what platform you're on.
+
+
+Other Questions
+---------------
+
+How can I make my library work as both an executable and a used library?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Dylan language doesn't define a way to do this, specifically, but
+it can be done if you don't mind hard-coding the name of the
+executable.  For example, a very common case is a test suite library,
+where you want to be able to use the test suite in a higher level,
+combined test suite library, and you also want to be able to run the
+specific test suite as an executable.  Here's how the
+strings-test-suite library does it::
+
+  define method main () => ()
+    let filename = locator-name(as(<file-locator>, application-name()));
+    if (split(filename, ".")[0] = "strings-test-suite")
+      run-test-application(strings-test-suite);
+    end;
+  end method main;
+
+  begin
+    main()
+  end;
+
+The application-name function lives in operating-system:system.
+locator-name lives in locators:system.
+
+One proposal is to specify the main function in the library's .lid
+file.  The run-time would run all top-level code and then call the
+declared main function, if any.
+
+
+Gwydion Dylan Questions
+=======================
+
+
+My error says "unknown source location". What can I do?
+-------------------------------------------------------
+
+You can get a backtrace in gdb by setting a breakpoint on ``abort()``
+with ``break abort`` before you start your program using ``run``. When
+the runtime error occurs, typing ``bt`` will get you a stack trace,
+which is often very helpful. Take the line numbers with a grain of
+salt, though.
+
+
+How Can I Build Gwydion Dylan from Source?
+------------------------------------------
+
+(Fill in details about environment variables and install dirs and doc links, etc.)
+
+* ./autogen.sh
+* make
+* sudo make install
+
+
+How can I make the build put build products outside the source directories?
+---------------------------------------------------------------------------
+
+*TODO*
+
+
+Open Dylan Questions
+====================
+
+How do I set up the Open Dylan IDE?
+-----------------------------------
+
+The IDE only works on Windows for now.  On all other platforms you
+must use the command-line compiler.
+
+* Download the Windows installer for Open Dylan from the {{Download}} page.
+
+* Install {{Open Dylan}}.  ({{Open Dylan 1.0 Beta 5}} is current as of
+  this writing.)
+
+* Use the System control panel to set your LIB, PATH, and INCLUDE
+  environment variables to point to the appropriate directories. For
+  example, for `Pelles C <http://www.smorgasbordet.com/pellesc/>`_
+  (recommended) you will need::
+
+    PATH=C:\Program Files\PellesC\bin;%PATH%
+    LIB=C:\Program Files\PellesC\Lib;C:\Program Files\PellesC\Lib\Win;%LIB%
+    INCLUDE=C:\Program Files\PellesC\include;C:\Program Files\PellesC\include\Win;%INCLUDE%
+
+Now start up Open Dylan and you should be able to open and compile one
+of the example projects.
+
+If you're doing more than just playing with Open Dylan you'll also
+need to tell it how to find your project sources by telling it where
+the "registries" are.  See the question "How do I set up my Open Dylan
+source checkout?" below.
+
+
+How do I use the command-line compiler?
+---------------------------------------
+
+The command-line compiler is named "opendylan" in the released
+tarball, but if you build it yourself it will be called
+"minimal-console-compiler".  Build products will go in ~/Open-Dylan by
+default, which can be overridden by setting OPEN_DYLAN_USER_ROOT. Open
+Dylan uses a registry to locate project source code, so you'll want to
+set the OPEN_DYLAN_USER_REGISTRIES environment variable to a directory
+set aside for that purpose.  ::
+
+  export OPEN_DYLAN_USER_REGISTRIES=/home/you/dylan/git/registry:\
+  /home/you/dylan/git/opendylan/sources/registry
+
+See the question "How do I set up my Open Dylan source checkout?"
+below.
+
+To compile, just say
+
+  opendylan -build <lid-file>
+
+The first build will take a while because Open Dylan has to compile
+all the system libraries, but subsequent builds are faster.
+
+You can also just type opendylan<Enter>.
+Then type "help".  A typical usage might look like this::
+
+  opendylan <Enter>
+  open my-project <Enter>  // assumes my-project in registry
+  build <Enter>
+  <modify my-project>
+  build <Enter>            // or just press <Enter>
+  ...repeat the previous two steps...
+
+Note that there's a bad bug wherein warnings for subprojects aren't
+always displayed, so you have to look carefully at the output for
+lines like this::
+
+   There were 2 warnings, 1 serious warnings and 0 errors.
+
+If there are warnings they'll be in
+$OPEN_DYLAN_USER_ROOT/build/<library>/<library>.log.  Warnings for the
+top-level project are displayed correctly so if you don't modify
+subprojects for a given build things work as you would expect.
+
+How do I set up my Open Dylan source checkout?
+----------------------------------------------
+
+The Open Dylan sources are stored in a Git repository alongside the
+Gwydion Dylan sources and other related projects.  ::
+
+  git clone git@github.com:dylan-lang/opendylan
+
+
+Open Dylan finds projects by looking in its "project registries".
+Each registry entry is a one line file that points to a project's
+source directory, relative to the registry itself.  For convenience
+opendylan has a registry in opendylan/sources/registry that contains
+entries for all of the projects needed to build Open Dylan itself.
+There is also a registry at git@github.com:dylan-lang/registry that
+has entries for most of the other Dylan libraries.  It assumes that
+those libraries are all checked out at the same level as itself.
+For example::
+
+  mkdir git
+  cd git
+  git clone git@github.com:dylan-lang/registry
+  git clone git@github.com:dylan-lang/http
+  git clone git@github.com:dylan-lang/...
+
+All registry directories must be added to the
+OPEN_DYLAN_USER_REGISTRIES environment variable using the System
+control panel.  For example::
+
+  OPEN_DYLAN_USER_REGISTRIES=C:\...\git\registry;C:\...\git\opendylan\sources\registry
+
+Now test for correctness by loading one project from the opendylan
+directory and one from outside the opendylan directory.  Use the
+"Internal > Open Registry Project" menu item to open (for example) the
+"dylan" project from the "opendylan" registry.  Similarly open (for
+example) the "regular-expressions" project, which lives in the other
+registry.
+
+You should be able to build each project.  You will see several
+serious warnings from the dylan project, which can be ignored, and
+there will also be some non-serious warnings from both projects.
+
+How can I build the IDE with Open Dylan?
+----------------------------------------
+
+See the page {{Build win32-environment with opendylan}}
+
+How can I bootstrap Open Dylan on PowerPC?
+------------------------------------------
+
+See the page {{BootstrappingOpenDylanOnPPC}}
+
+How to build Open Dylan with Boehm GC on Linux/FreeBSD
+------------------------------------------------------
+
+Working dir is sources/lib/run-time/pentium-freebsd!
+
+* put the define BOEHM_GC in x86-linux-collector.c and x86-linux-thread-primitives.c back in.
+* change the Makefile to contain -I/usr/local/include (where gc/gc.h is)
+* you need to have mps headers around
+* change x86-freebsd-build-jam, replace -lmmdw -lmpsplan by -lgc
+
+Windows: I get "rc.exe not found" error when building
+-----------------------------------------------------
+
+
+Your C compiler's bin directory needs to be included in your PATH
+environment variable. For Visual Studio 2005 Express Edition, this
+could be C:\Program Files\Microsoft Visual Studio 8\VC\bin.  For
+PellesC it is usually C:\Program Files\PellesC\bin.
+
+Windows: can't find windows.h (or excpt.h) when building
+--------------------------------------------------------
+
+Your windows headers need to be included in your %INCLUDE%. For Visual Studio 2005 Express Edition, this is in the following directories::
+
+  C:\Programme\Microsoft Visual Studio 8\VC\include
+  C:\Programme\Microsoft Platform SDK for Windows Server 2003 R2\Include
+
+Please see the note about environment variables under windows above.
+
+Windows: can't find mspdb80.dll (or a similar mssomething.dll) when building
+----------------------------------------------------------------------------
+
+Your windows libraries need to be included in your %PATH% (and maybe
+%LIB%). For Visual Studio 2005 Express Edition, this is in
+``C:\Programme\Microsoft Visual Studio 8\Common7\IDE`` Please see the
+note about environment variables under windows above.
+
+Windows: I get an error about "LINK : fatal error LNK1201: error writing to program database". What's wrong?
+------------------------------------------------------------------------------------------------------------
+
+There's a bug in Microsoft's dbghelp.dll, a helper DLL for debugging
+programs.  To fix the problem, either install a sufficiently recent
+version of that DLL in ``C:\Program Files\Open Dylan\bin``, or upgrade
+your Open Dylan installation.
+
+As of Dec 2007 I am using version 6.5.something.  --cgay
+
+Can I use Open Dylan as just in time debugger (JIT) on Windows?
+---------------------------------------------------------------
+
+Yes, you can! Your registry entry for AeDebug (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AeDebug) should look like (I had to add the key Debugger)::
+
+  Debugger = "C:\Program Files\Open Dylan\bin\win32-environment" /p:%ld /e:%ld
+
+
+What environment variables affect Open Dylan
+--------------------------------------------
+
+(Note that Windows environment variables such as PATH, LIB, and
+INCLUDE also affect Open Dylan.  See elsewhere in this FAQ.)
+
+These are the most commonly used environment variables:
+
+* OPEN_DYLAN_USER_ROOT is where the build products end up.  If not set on Linux ~/Open-Dylan/ is used.  On Windows the default is C:\Documents and Settings\username\Application Data\Open-Dylan\.
+
+* OPEN_DYLAN_USER_INSTALL is where the dynamically linked libraries and executables are saved.  If this is not set the value of OPEN_DYLAN_USER_ROOT will be used.
+
+* OPEN_DYLAN_USER_BUILD is where build products are saved.  If not set then $OPEN_DYLAN_USER_ROOT/build is used.
+
+* OPEN_DYLAN_USER_REGISTRIES is a list of directories to search for registry entries when trying to find the source for a library.  Example: /you/dylan/trunk/libraries/registry:/you/dylan/trunk/fundev/registry
+
+
+----
+
+These are used less commonly, and some probably not at all, but they're used in
+the sources:
+
+* OPEN_DYLAN_USER_SOURCES
+* OPEN_DYLAN_USER_BIN
+* OPEN_DYLAN_USER_LIB
+* OPEN_DYLAN_RELEASE_ROOT
+* OPEN_DYLAN_RELEASE_BUILD
+* OPEN_DYLAN_RELEASE_INSTALL
+* OPEN_DYLAN_RELEASE_SOURCES
+* OPEN_DYLAN_RELEASE_REGISTRIES
+* OPEN_DYLAN_C_FLAGS
+* OPEN_DYLAN_LINKAPP_FLAGS
+* OPEN_DYLAN_LINKLIB_FLAGS
+* OPEN_DYLAN_LD
+* OPEN_DYLAN_LIBRARY_PACKS
+* OPEN_DYLAN_PLATFORM_NAME
+* SDK4MEMORY_POOL_SYSTEM
+* LD_LIBRARY_PATH
+* OPEN_DYLAN_USER_PROJECTS
+* OPEN_DYLAN_BUILD_LOGS
+
+What Linkers are Supported?
+---------------------------
+
+On Wed, Sep 28, 2005 at 05:55:51AM +0200, Matthias H?lzl wrote::
+
+  Currently debugging does not work if you use VS .NET, since Open Dylan
+  does not yet understand the debug information generated by the .NET
+  linker.  Stack traces are often missing or not correct and after running
+  an application from inside the development environment the linker will
+  fail most of the time.
+
+  If you have a version of Visual Studio 6.0 or Visual C++ 6.0 I would
+  recommend using this, otherwise I would recomment using PellesC.  Having
+  VS 6.0 or Pelles C installed together with VS .NET is no problem, that's
+  what I use on my computer as well.
+
+  With Visual C 6.0 you should probably use the values for the Path and
+  Lib environment variables that the Visual Studio command prompt
+  defines.  For me the VS specific parts of these environment variables are
+
+  LIB = C:\Program Files\Microsoft Visual Studio\VC98\mfc\lib;C:\Program
+  Files\Microsoft Visual Studio\VC98\lib
+
+  PATH = C:\Program Files\Microsoft Visual
+  Studio\Common\Tools\WinNT;C:\Program Files\Microsoft Visual
+  Studio\Common\MSDev98\Bin;C:\Program Files\Microsoft Visual
+  Studio\Common\Tools;C:\Program Files\Microsoft Visual Studio\VC98\bin
+
+  I usually define INCLUDE as well, although I don't think this is necessary:
+
+  INCLUDE = C:\Program Files\Microsoft Visual
+  Studio\VC98\atl\include;C:\Program Files\Microsoft Visual
+  Studio\VC98\mfc\include;C:\Program Files\Microsoft Visual
+  Studio\VC98\include
+
+  If you use PellesC you need to define the following environment
+  variables (these are from a German version of Windows, so you will have
+  to replace Programme with Program Files if you use an English version of
+  Windows),
+
+  LIB = C:\Programme\PellesC\lib;C:\Programme\PellesC\lib\Win
+  PATH = <whatever you have now>;C:\Programme\PellesC\bin
+  INCLUDE = C:\Programme\PellesC\include;C:\Programme\PellesC\include\Win
