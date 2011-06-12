@@ -1,0 +1,53 @@
+Here are some common Dylan naming conventions.
+
+``*foo*`` - module ("global") variables::
+
+  define variable *http-port* :: <integer> = 80;
+
+
+``<foo>`` - classes::
+
+  define class <point> (<object>)
+    slot point-x :: <integer>;
+    slot point-y :: <integer>;
+  end;
+
+
+``$foo`` - constants::
+
+  define constant $version :: <string> = "2011.06.09";
+
+
+``foo?`` - predicate functions.  i.e., functions that return a <boolean>.
+
+
+``foo!`` - mutating operations.  This is primarily used for collection
+operations.
+
+
+``%foo`` - "internal" names.  Probably the most common use for this is
+to provide both low- and high-level interfaces for a slot.  A small
+amount of code will use the internal definition to perform special
+actions when the slot is set while the rest accesses the slot via the
+external name.  ::
+
+  define class <foo> (<object>)
+    slot %foo-name;
+  end;
+
+  // There is nothing special to do for the getter, so just use %foo-name.
+  define constant foo-name = %foo-name;
+
+  // When the value is changed, do some other work.
+  define method foo-name-setter (new :: <object>, foo :: <foo>) => (new)
+    foo.%foo-name := new;
+    notify-listeners(foo, #"name-changed");
+  end;
+
+Most code will use ``foo.foo-name := blah`` to set the name and
+foo-name-setter should be the only thing that ever calls
+%foo-name-setter (which it does via ``foo.%foo-name := new``).
+
+
+See also, `Naming Conventions </static/books/drm/Naming_Conventions>`_ in the
+`DRM </static/books/drm/>`_.
