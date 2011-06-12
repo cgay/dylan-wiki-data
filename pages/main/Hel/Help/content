@@ -1,0 +1,38 @@
+{{escape: "[[" "]]"}}
+
+Most formatting for this wiki is done by ReStructured Text (RST).
+There is a small amount of additional markup language added on top
+of RST to provide links to other wiki objects such as pages, users,
+and groups.
+
+
+**Help on ReStructured Text**
+
+* `Getting Started Guide <http://docutils.sourceforge.net/docs/user/rst/quickstart.html>`_
+* `Quick Reference <http://docutils.sourceforge.net/docs/user/rst/quickref.html>`_
+* `Cheat Sheet <http://docutils.sourceforge.net/docs/user/rst/cheatsheet.txt>`_
+* `RST Main Page <http://docutils.sourceforge.net/rst.html>`_
+
+
+**Help on Wiki Markup**
+
+This wiki adds some markup on top of the existing RST markup.
+All wiki markup start with ``{{`` and ends with ``}}``.  Because
+page links are expected to be the most common by far, they have an
+optional shortened syntax.  ::
+
+    {{page: Foo, text: Bar}}    -- link text "Bar" to page "Foo"
+    {{Foo,Bar}}                 -- shorthand for {{page:Foo,text:Bar}}
+    {{Foo}}                     -- shorthand for {{page:Foo,text:Foo}}
+    {{page: "x,y"}}             -- names may be quoted
+    {{page: 'The "x" Page'}}    -- single or double quotes work.
+    {{user: jdoe, text: Jon}}   -- a user link
+    {{group: group}}            -- a group link
+    {{include: Page}}           -- include Page's content in the current page
+    {{escape: "((" "))"}}       -- use (( and )) instead of {{ and }}
+
+The wiki pre-parser knows nothing about RST parsing.  It simply
+searches the raw markup for ``{{`` and assumes that's a wiki
+directive.  If you need to put a literal ``{{`` or ``}}`` in the
+generated output it can be done by changing the escape character
+sequences via the {{escape: ...}} directive.
