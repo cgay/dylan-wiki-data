@@ -1,0 +1,30 @@
+*Dylan is...*
+
+**Object Oriented** - Everything is an object, including numbers, classes and functions.
+
+**Functional** - Dylan uses {{generic functions}}, in which the types
+of all arguments determine which method will be invoked, rather than
+tying methods to individual classes.  It has full closures, lexical
+scoping, block structure, and is properly tail recursive.
+
+**Safe** - Dylan, like Java and other languages, is safe. It is
+garbage collected, does not allow direct access to pointers, and
+requires that values be initialized.  Unlike in Java there is no null
+type, so you don't need to worry about NullPointerExceptions unless
+you explicitly allow null values.
+
+.. how do we phrase the above better?
+
+**Flexible** - Static typing is optional in Dylan, giving you the
+ability to prototype code rapidly and specify types later when APIs
+have been nailed down or more performance is needed.
+
+**Extensible, Powerful** - Dylan, like Lisp, is easily extended via
+{{macros}}.  These are far more powerful than preprocessor macros,
+e.g., allowing you to define new control constructs and defining
+forms.
+
+**Efficient** - The Dylan compilers are capable of high levels of
+optimization, approaching the performance of C, C++ and Java.  Dylan
+code can be annotated and specialized to give the compilers greater
+latitude to optimize.
