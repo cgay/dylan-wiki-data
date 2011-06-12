@@ -1,11 +1,11 @@
 Here are some common Dylan naming conventions.
 
-``*foo*`` - module ("global") variables::
+**\*foo\*** - module ("global") variables::
 
   define variable *http-port* :: <integer> = 80;
 
 
-``<foo>`` - classes::
+**<foo>** - classes::
 
   define class <point> (<object>)
     slot point-x :: <integer>;
@@ -13,19 +13,19 @@ Here are some common Dylan naming conventions.
   end;
 
 
-``$foo`` - constants::
+**$foo** - constants::
 
   define constant $version :: <string> = "2011.06.09";
 
 
-``foo?`` - predicate functions.  i.e., functions that return a <boolean>.
+**foo?** - predicate functions.  i.e., functions that return a <boolean>.
 
 
-``foo!`` - mutating operations.  This is primarily used for collection
+**foo!** - mutating operations.  This is primarily used for collection
 operations.
 
 
-``%foo`` - "internal" names.  Probably the most common use for this is
+**%foo** - "internal" names.  Probably the most common use for this is
 to provide both low- and high-level interfaces for a slot.  A small
 amount of code will use the internal definition to perform special
 actions when the slot is set while the rest accesses the slot via the
