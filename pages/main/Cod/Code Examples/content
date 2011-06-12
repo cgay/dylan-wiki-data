@@ -1,28 +1,10 @@
-**Get Started**
-
-* {{About Dylan}}
-* {{Code Examples}}
-* {{Download}}
-* {{FAQ}}
-
-**Documentation**
-
-* {{Dylan Reference}}
-* {{Dylan Tutorial}}
-* {{Open Dylan Documentation, Open Dylan Docs}}
-* {{Gwydion Dylan Documentation, Gwydion Dylan Docs}}
-
-**Developer Resources**
-
-* {{Source Code}}
-* {{Report Bugs}}
-* {{Development Tools}}
-* {{Get Involved}}
-
-**About This Wiki**
-
-* {{Help}}
-* `Recent Changes </wiki/recent-changes>`_
-* `Pages </wiki/page/list>`_
-* `Users </wiki/user/list>`_
-* `Groups </wiki/group/list>`_
+* {{"Example - Hello World", Hello World}}
+* {{"Example - Everything is a Value", Everything is a Value}}
+* {{"Example - Generic Functions", Generic Functions}}
+* {{"Example - Classes", Classes}}
+* {{"Example - Parameter Lists", Parameter Lists}}
+* {{"Example - Multiple Return Values", Multiple Return Values}}
+* {{"Example - Control Flow", Control Flow}}
+* {{"Example - Optional Static Typing", Optional Static Typing}}
+* {{"Example - Macros", Macros}}
+* {{"Example - Limited Types", Limited Types}}
