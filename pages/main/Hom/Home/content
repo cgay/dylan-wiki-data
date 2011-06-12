@@ -1,0 +1,33 @@
+    *Dylan is an advanced, object-oriented, dynamic language which
+    supports rapid program development.  When needed, programs can be
+    optimized for more efficient execution by supplying more type
+    information to the compiler.  Nearly all entities in Dylan
+    (including functions, classes, and basic data types such as
+    integers) are first class objects. Additionally Dylan supports
+    multiple inheritance, polymorphism, multiple dispatch, keyword
+    arguments, object introspection, macros, and many other advanced
+    features...  --Peter Hinely*
+
+For more on the background and goals of the Dylan language, see the
+excellent `Introduction to the Dylan Reference Manual </books/drm/drm_6.html>`_.
+
+To get a quick feel of the language have a look at some
+{{code examples}}.
+
+For an overview of the available implementations of Dylan, see {{Dylan
+Implementations}}.
+
+News
+----
+
+2011.12.25 -- Open Dylan LLVM back-end
+
+    Open Dylan now uses the LLVM back-end by default, thus leveraging
+    all of its optimizations and platform support.
+
+2011.08.01 -- New Wiki Goes Live
+
+    The Dylan wiki (both the implementation and the wiki content) have
+    been almost completely rewritten.  The wiki software itself now uses
+    augmented ReStructured Text as its markup language and uses Git for
+    its backing storage, as well as substantial other changes.
