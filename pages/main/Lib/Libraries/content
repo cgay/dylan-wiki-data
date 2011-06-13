@@ -9,8 +9,8 @@ Core
 * {{common-dylan}} - Frequently used functions that are implemented in both {{Open Dylan}} and {{Gwydion Dylan}}.
 
 
-Dylan Implementations
-=====================
+Compilers
+=========
 
 * {{Gwydion Dylan}} - The Gwydion Dylan compiler.
 * {{Open Dylan}} - The Open Dylan compiler and IDE.
