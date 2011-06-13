@@ -16,9 +16,51 @@ Compilers
 * {{Open Dylan}} - The Open Dylan compiler and IDE.
 
 
-The Rest
-========
+Uncategorized
+=============
 
 (At some point these should be categorized better.)
 
-TODO
+* `anaphora <https://github.com/dylan-lang/anaphora>`_
+* `base64 <https://github.com/dylan-lang/base64>`_
+* `coil <https://github.com/dylan-lang/coil>`_
+* `collection-extensions <https://github.com/dylan-lang/collection-extensions>`_
+* `command-line-parser <https://github.com/dylan-lang/command-line-parser>`_
+* `doctower <https://github.com/dylan-lang/doctower>`_
+* `dylan-mode <https://github.com/dylan-lang/dylan-mode>`_
+* `dynamic-binding <https://github.com/dylan-lang/dynamic-binding>`_
+* `graph-viewer <https://github.com/dylan-lang/graph-viewer>`_
+* `graphviz-renderer <https://github.com/dylan-lang/graphviz-renderer>`_
+* `gui-testworks <https://github.com/dylan-lang/gui-testworks>`_
+* `http <https://github.com/dylan-lang/http>`_
+* `inertia <https://github.com/dylan-lang/inertia>`_
+* `logging <https://github.com/dylan-lang/logging>`_
+* `matrix <https://github.com/dylan-lang/matrix>`_
+* `meta <https://github.com/dylan-lang/meta>`_
+* `mime <https://github.com/dylan-lang/mime>`_
+* `monday <https://github.com/dylan-lang/monday>`_
+* `opendylan <https://github.com/dylan-lang/opendylan>`_
+* `peg-parser <https://github.com/dylan-lang/peg-parser>`_
+* `priority-queue <https://github.com/dylan-lang/priority-queue>`_
+* `regular-expressions <https://github.com/dylan-lang/regular-expressions>`_
+* `sequence-stream <https://github.com/dylan-lang/sequence-stream>`_
+* `skip-list <https://github.com/dylan-lang/skip-list>`_
+* `slot-visitor <https://github.com/dylan-lang/slot-visitor>`_
+* `state-machine <https://github.com/dylan-lang/state-machine>`_
+* `strings <https://github.com/dylan-lang/strings>`_
+* `template-engine <https://github.com/dylan-lang/template-engine>`_
+* `testworks <https://github.com/dylan-lang/testworks>`_
+* `testworks-report <https://github.com/dylan-lang/testworks-report>`_
+* `testworks-specs <https://github.com/dylan-lang/testworks-specs>`_
+* `turboblog <https://github.com/dylan-lang/turboblog>`_
+* `uncommon-dylan <https://github.com/dylan-lang/uncommon-dylan>`_
+* `uri <https://github.com/dylan-lang/uri>`_
+* `web-framework <https://github.com/dylan-lang/web-framework>`_
+* `wiki <https://github.com/dylan-lang/wiki>`_
+* `wrapper-streams <https://github.com/dylan-lang/wrapper-streams>`_
+* `xml-parser <https://github.com/dylan-lang/xml-parser>`_
+* `xml-rpc <https://github.com/dylan-lang/xml-rpc>`_
+* `xmpp <https://github.com/dylan-lang/xmpp>`_
+* `xmpp-bot <https://github.com/dylan-lang/xmpp-bot>`_
+* `zlib <https://github.com/dylan-lang/zlib>`_
+
