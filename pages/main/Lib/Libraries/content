@@ -1,0 +1,24 @@
+This is a comprehensive list of all Dylan libraries.
+
+
+Core
+====
+
+* `Dylan </static/books/drm/>`_ - The Dylan library is fully described by the `Dylan Reference Manual </static/books/drm/>`_.
+
+* {{common-dylan}} - Frequently used functions that are implemented in both {{Open Dylan}} and {{Gwydion Dylan}}.
+
+
+Dylan Implementations
+=====================
+
+* {{Gwydion Dylan}} - The Gwydion Dylan compiler.
+* {{Open Dylan}} - The Open Dylan compiler and IDE.
+
+
+The Rest
+========
+
+(At some point these should be categorized better.)
+
+TODO
