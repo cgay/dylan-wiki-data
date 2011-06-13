@@ -30,3 +30,5 @@ File hello.dylan::
 #. The top level expressions in each source file are executed in order
    when the library is loaded, so there is no need for a "main" method
    here.
+
+See more {{code examples}}.
