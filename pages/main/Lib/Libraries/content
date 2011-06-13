@@ -19,37 +19,36 @@ Compilers
 Uncategorized
 =============
 
-(At some point these should be categorized better.)
+(At some point these should be categorized better and each should have a wiki page that links to the docs, sources, and bug tracker.)
 
 * `anaphora <https://github.com/dylan-lang/anaphora>`_
-* `base64 <https://github.com/dylan-lang/base64>`_
-* `coil <https://github.com/dylan-lang/coil>`_
-* `collection-extensions <https://github.com/dylan-lang/collection-extensions>`_
-* `command-line-parser <https://github.com/dylan-lang/command-line-parser>`_
-* `doctower <https://github.com/dylan-lang/doctower>`_
-* `dylan-mode <https://github.com/dylan-lang/dylan-mode>`_
+* `base64 <https://github.com/dylan-lang/base64>`_ - Base 64 encoding/decoding.
+* `coil <https://github.com/cgay/coil>`_ - Powerful configuration language (alpha stage)
+* `collection-extensions <https://github.com/dylan-lang/collection-extensions>`_ - Extensions to the core collection classes.
+* `command-line-parser <https://github.com/dylan-lang/command-line-parser>`_ - getopt, only better.
+* `doctower <https://github.com/dylan-lang/doctower>`_ - Generate docs from Dylan source code
+* `dylan-mode <https://github.com/dylan-lang/dylan-mode>`_ - dylan-mode for emacs
 * `dynamic-binding <https://github.com/dylan-lang/dynamic-binding>`_
 * `graph-viewer <https://github.com/dylan-lang/graph-viewer>`_
 * `graphviz-renderer <https://github.com/dylan-lang/graphviz-renderer>`_
-* `gui-testworks <https://github.com/dylan-lang/gui-testworks>`_
-* `http <https://github.com/dylan-lang/http>`_
+* `http <https://github.com/dylan-lang/http>`_ - HTTP server and client
 * `inertia <https://github.com/dylan-lang/inertia>`_
-* `logging <https://github.com/dylan-lang/logging>`_
+* `logging <https://github.com/dylan-lang/logging>`_ - Logging library
 * `matrix <https://github.com/dylan-lang/matrix>`_
 * `meta <https://github.com/dylan-lang/meta>`_
-* `mime <https://github.com/dylan-lang/mime>`_
+* `mime <https://github.com/dylan-lang/mime>`_ - Mime types
 * `monday <https://github.com/dylan-lang/monday>`_
-* `opendylan <https://github.com/dylan-lang/opendylan>`_
-* `peg-parser <https://github.com/dylan-lang/peg-parser>`_
+* `peg-parser <https://github.com/dylan-lang/peg-parser>`_ - PEG parser
 * `priority-queue <https://github.com/dylan-lang/priority-queue>`_
 * `regular-expressions <https://github.com/dylan-lang/regular-expressions>`_
 * `sequence-stream <https://github.com/dylan-lang/sequence-stream>`_
 * `skip-list <https://github.com/dylan-lang/skip-list>`_
 * `slot-visitor <https://github.com/dylan-lang/slot-visitor>`_
 * `state-machine <https://github.com/dylan-lang/state-machine>`_
-* `strings <https://github.com/dylan-lang/strings>`_
+* `strings <https://github.com/dylan-lang/strings>`_ - Useful but not very well thought-out strings library.
 * `template-engine <https://github.com/dylan-lang/template-engine>`_
-* `testworks <https://github.com/dylan-lang/testworks>`_
+* `testworks <https://github.com/dylan-lang/testworks>`_ - Unit test framework.
+* `gui-testworks <https://github.com/dylan-lang/gui-testworks>`_
 * `testworks-report <https://github.com/dylan-lang/testworks-report>`_
 * `testworks-specs <https://github.com/dylan-lang/testworks-specs>`_
 * `turboblog <https://github.com/dylan-lang/turboblog>`_
