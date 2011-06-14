@@ -1,0 +1,25 @@
+Around 1993 the Computer Science department at `CMU
+<http://www.cs.cmu.edu>`_ (Carnegie Mellon University, Pittsburgh,
+USA) headed by Scott Fahlmann began a `research project to develop an
+advanced programming environment
+<http://www.cs.cmu.edu/~gwydion/gwydion-overview.html>`_, focusing on
+support for evolutionary development. As part of this development, the
+Gwydion team collaborated with {{Apple Cambridge}} and {{Harlequin}}
+to design the {{Dylan Language}}, and developed an interpreter and
+compiler for the language.
+
+In 1997/1998 the support for the `Gwydion Project at CMU
+<http://www-2.cs.cmu.edu/afs/cs/project/gwydion/docs/htdocs/gwydion/>`_
+was terminated, and `the research group
+<http://www.cs.cmu.edu/afs/cs/project/gwydion/docs/htdocs/gwydion/biographs.html>`_
+released their implementation into the public domain.
+
+In the summer of 1998, the gd-hackers team was formed to take over
+maintainance of Gwydion Dylan, and is now known as the dylan-hackers.
+
+* {{Download}}
+* {{Gwydion Dylan FAQ}}
+* {{Gwydion Dylan Documentation}}
+* {{Gwydion Dylan Compilation Troubleshooting}}
+* {{Installing Gwydion Dylan on Ubuntu}}
+* {{Gwydion Dylan Debugging}}
