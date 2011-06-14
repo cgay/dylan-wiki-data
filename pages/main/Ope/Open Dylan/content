@@ -1,0 +1,22 @@
+Open Dylan is a full-featured implementation of the Dylan language
+with a powerful IDE and a command-line compiler.  The compiler is
+currently available for Windows, Linux, and Mac OS X (x86 and PPC).
+The IDE only works on Windows until the GTK backend for {{DUIM}} is
+finished.
+
+Open Dylan started life as a commercial product called Harlequin Dylan
+and later, when {{Harlequin}} spun off the Dylan group as {{Functional
+Objects}} it was called {{Functional Developer}}.  Soon after it was
+open-sourced in early 2005 it was renamed to Open Dylan.
+
+{{Download}} Open Dylan
+
+{{Open Dylan FAQ}}
+
+{{Building an Open Dylan release}}
+
+{{Running Open Dylan with Mac OS X}}
+
+{{Open Dylan 1.0 Criteria}}
+
+.. TODO: add some screen shots here.
