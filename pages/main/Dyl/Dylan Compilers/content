@@ -1,0 +1,46 @@
+
+Open Dylan
+==========
+
+{{Open Dylan}} is an open source compiler and IDE with full library
+support.  The compiler can generate native code for x86 on Linux,
+Windows, and BSD, and has a C back-end that can be used on other
+architectures.  The IDE only works on Windows due to lack of debugger
+and GUI support on other platforms.  {{Open Dylan}} was originally a
+commercial product called "Harlequin Dylan", sold by Harlequin, Inc.
+Work on an LLVM back-end is currently (June 2011) underway.
+
+
+Gwydion Dylan
+=============
+
+{{Gwydion Dylan}} is a highly portable open source Dylan to C
+compiler that generates fast code slowly.  It is missing some
+important libraries like threads and networking.  {{Gwydion Dylan}}
+was originally written by the Gwydion group at the Carnegie Mellon
+University.
+
+Historical projects
+===================
+
+* {{Mindy}} (Mindy is not dylan yet) is a Dylan interpreter that was
+  used to bootstrap Gwydion Dylan up until version 2.5 was released.
+
+* {{Marlais}} is a Dylan interpreter.
+
+* {{Thomas}} was a Dylan written on top of Scheme. It was developed at
+  DEC.
+
+* {{Apple Dylan}}, the first released implementation of the language,
+  is sadly no longer available.
+
+* {{Dyva}}, a crazy hare-brained scheme to try and make a Dylan system
+  that runs on the JVM.
+
+See Also
+========
+
+* {{Implementing Dylan Compilers,
+    What are challenges in implementing a Dylan Compilers}}
+* {{Incompatibilities Between OD and GD}}
+* {{Dylan Dev Environments}}
