@@ -1,4 +1,4 @@
-This page attempts to list all Dylan documentation sources.
+This page attempts to bring together all Dylan documentation sources.
 
 
 .. contents:
@@ -87,7 +87,7 @@ Dylan before it became open source.
 * `C FFI`_ - How to interface with C libraries via the C Foreign Function
   Interface.
 
-* `Microsoft win32 API` - How to use the MS win32 API in Open Dylan.
+* `Microsoft win32 API`_ - How to use the MS win32 API in Open Dylan.
 
 * `OLE, COM, ActiveX and DBMS Reference`_
 
