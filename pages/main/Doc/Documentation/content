@@ -1,0 +1,104 @@
+This page attempts to list all Dylan documentation sources.
+
+
+.. contents:
+
+
+Reference
+=========
+
+* `Dylan Reference Manual (DRM) </static/books/drm/>`_ (`Errata`_) - The
+  official definition of the Dylan language and standard library.
+
+* {{Libraries}} - Find docs for specific Dylan libraries.
+
+.. _Errata: /static/books/drm/Errata
+
+
+Tutorials
+=========
+
+* `Getting Started with Dylan`_ (`multi-page`__) - A quick tutorial by Eric
+  Kidd
+
+* {{Code Examples}} - Find examples of specific Dylan language constructs.
+
+* `Dylan Programming`_ - This book takes you through an airport example.
+
+* `A First Look at Dylan`_ - An article for MacTech by Steve Strassmann.  It
+  covers classes, functions and modules, and provides good examples.
+
+* `Converting Common Lisp to Dylan`_ - Some notes for Lisp hackers interested
+  in Dylan.
+
+__ /static/gdref/tutorial/
+.. _Getting Started with Dylan: /static/gdref/tutorial.html
+.. _Dylan Programming: /static/books/dpg/
+.. _A First Look at Dylan: http://www.mactech.com/articles/develop/issue_21/21strassman.html
+.. _Converting Common Lisp to Dylan: http://www.norvig.com/ltd/doc/ltd.html
+
+
+Gwydion Dylan Docs
+==================
+
+* `Gwydion Dylan User's Manual`_ - Includes a brief tutorial on creating and
+  compiling Dylan programs, plus a reference for the d2c compiler and other
+  tools.
+ 
+* `Updated Gwydion Dylan Library Reference`_
+
+* `Gwydion Dylan Library Reference`_ (`multi-page`__)
+ 
+* `Gwydion Dylan Maintainer's Manual`_ (`multi-page`__) - Reference describing
+  tool internals.
+
+* `d2c internals doc`_ (`multi-page`__)
+ 
+.. _Gwydion Dylan User's Manual: /static/gdref/gduser.html
+.. _Updated Gwydion Dylan Library Reference: /static/gdref/gdcore/html/index.html
+.. _Gwydion Dylan Library Reference: /static/gdref/gdlibs.html
+__ /static/gdref/gdlibs/gdlibs.html
+.. _Gwydion Dylan Maintainer's Manual: /static/gdref/gdmaint.html
+__  /static/gdref/gdmaint/
+.. _d2c internals doc: /static/gdref/gdapi.html
+__ /static/gdref/gdapi/
+
+
+Open Dylan Docs
+===============
+
+These docs still refer to "Functional Developer", which was the name of Open
+Dylan before it became open source.
+
+* `Getting Started with Functional Developer`_ - Describes Open Dylan's
+  interactive development environment
+
+* `Common Dylan and Functional Extensions library reference`_ - Describes the
+  common-dylan library and Open Dylan's language extensions.
+
+* `System and I/O library reference`_ - Describes libraries for interacting
+  with the host environment.
+
+* `Building Applications Using DUIM`_ - User guide for the Dylan User Interface
+  Manager, a portable GUI development toolkit.
+
+* `DUIM library reference`_ - Complete DUIM library reference.
+
+* `C FFI`_ - How to interface with C libraries via the C Foreign Function
+  Interface.
+
+* `Microsoft win32 API` - How to use the MS win32 API in Open Dylan.
+
+* `OLE, COM, ActiveX and DBMS Reference`_
+
+* `CORBA Reference`_
+
+.. _Getting Started with Functional Developer: /static/documentation/opendylan/env/index.htm
+.. _Common Dylan and Functional Extensions library reference: /static/documentation/opendylan/core/index.htm
+.. _System and I/O library reference: /static/documentation/opendylan/io/index.htm
+.. _Building Applications Using DUIM: /static/documentation/opendylan/dguide/index.htm
+.. _DUIM library reference: /static/documentation/opendylan/dref/index.htm
+.. _C FFI: /static/documentation/opendylan/interop1/intero_4.htm
+.. _Microsoft win32 API: /static/documentation/opendylan/interop1/inte_113.htm
+.. _OLE, COM, ActiveX and DBMS Reference: /static/documentation/opendylan/interop2/index.htm
+.. _CORBA Reference: /static/documentation/opendylan/corba/index.htm
