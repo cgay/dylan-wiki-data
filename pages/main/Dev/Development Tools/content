@@ -1,0 +1,52 @@
+Here is a list of development tools available for Dylan:
+
+* The {{Open Dylan}} IDE is the a full-featured development environment.  It is
+  currently only available on Windows due to no {{DUIM}} back-end support on
+  other platforms.
+
+* **Emacs** support for Dylan indentation and colorization can be found in
+  `the dylan-mode library <https://github.com/dylan-lang/dylan-mode>`_.
+
+  To enable auto-loading of dylan-mode upon loading a .dylan file, add these
+  lines to your .emacs file::
+
+    (setq load-path (cons "<your-git-checkout>/dylan-mode/elisp" load-path))
+    (autoload 'dylan-mode "dylan-mode" "Dylan-mode" t)
+    (setq auto-mode-alist (cons '("\\.dylan\\'" . dylan-mode) auto-mode-alist))
+
+* **Vim** has built-in support Dylan indentation and colorization.
+
+* **View Sources** - Most Dylan projects are hosted on `github.com
+  <https://github.com/dylan-lang>`_.  You can browse the sources there.
+  See the {{Libraries}} page for specific projects.
+
+* **Report Bugs** - Some projects use Github's issue tracker to track bugs and
+  some use the `Bugzilla on opendylan.org
+  <https://www.opendylan.org/cgi-bin/bugzilla/index.cgi>`_.
+  See the {{Libraries}} page for specific projects.
+
+* **dswank** - To enable SLIME with Open Dylan, compile project dswank (located
+  in opendylan/sources/environment/dswank)::
+
+    $ OPEN_DYLAN_USER_REGISTRIES=.../opendylan/sources/registry opendylan -build dswank
+
+  The binary will end up in ``~/Open-Dylan/bin/dswank``.
+
+  Then download slime with  ::
+
+    cvs -d :pserver:anonymous:anonymous@common-lisp.net:/project/slime/cvsroot co slime
+
+  Add the following lines to your .emacs file::
+
+    (add-to-list 'load-path "/path/to/slime/")  ; your SLIME directory
+    (setq inferior-lisp-program "/path/to/dswank") ; your dswank binary
+    (require 'slime)
+    (slime-setup '(slime-dylan slime-repl))
+
+* **enscript** has Dylan support as of around (?) version 1.6.5.  This is a GNU
+  program that can format source code, convert between various page formats,
+  and render HTML versions of source code.
+
+* **LTD** - `Lisp to Dylan (LTD) <http://www.norvig.com/ltd/doc/ltd.html>`_ can
+  convert Common Lisp code to Dylan, or at least greatly reduce the amount of
+  manual labor required.
