@@ -337,6 +337,11 @@ that an industrial strength language implementation needs to have
 because its development hasn't kept up with the pace of hardware and
 OS changes.  We are working to fix that.
 
+How Can I Implement the Singleton Pattern?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+FILL ME IN
+
 
 Dispatching
 -----------
