@@ -1,0 +1,4 @@
+owner: cgay
+view-content: +$any
+modify-content: +$trusted
+modify-acls: +$owner
