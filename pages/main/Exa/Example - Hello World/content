@@ -25,7 +25,8 @@ File hello.dylan::
    that library, and the simple Hello World program is no exception.
 
 #. Every source file must have a "Module" header to say which module
-   its definitions should be in.
+   its definitions should be in.   The library is defined in the pre-existing
+   "dylan-user" module.
 
 #. The top level expressions in each source file are executed in order
    when the library is loaded, so there is no need for a "main" method
