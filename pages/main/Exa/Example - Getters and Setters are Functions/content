@@ -11,7 +11,9 @@ accessor functions up front. Consider a simple Dylan class::
       slot driver, required-init-keyword: driver:;
     end;
 
-This creates two functions, driver and driver-setter. Under normal
+This creates two functions, driver and driver-setter.  (You can prevent
+driver-setter from being defined by using "constant slot driver ..." instead.)
+Under normal
 circumstances, these two functions will be inlined and optimized into
 direct accesses.
 
