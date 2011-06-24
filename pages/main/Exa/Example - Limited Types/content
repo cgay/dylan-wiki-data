@@ -21,8 +21,8 @@ element::
 {{Open Dylan}} will optimize accesses into an ``<int-vector>`` defined
 as above.
 
-Theoretically a Dylan compiler could avoid doing bounds checking or
-type checking, and could use an efficient representation of the
+A Dylan compiler can avoid doing bounds checking or
+type checking, and can use an efficient representation of the
 vectors of floating point numbers for this code::
 
     define constant $audio-buffer-size = 2048;
