@@ -31,7 +31,7 @@
 
 **Efficient**
   The Dylan compilers are capable of high levels of
-  optimization, approaching the performance of C, C++ and Java.  Dylan
+  optimization, approaching the performance of C and C++.  Dylan
   code can be annotated and specialized to give the compilers greater
   latitude to optimize.
 
