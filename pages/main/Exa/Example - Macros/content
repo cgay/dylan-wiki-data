@@ -1,0 +1,23 @@
+Dylan macros allow you to create new control constructs and other high-level forms. They can be used to automatically release resources, simplify class creation, or adapt Dylan for a specific problem domain.
+
+Let's say you find this code a little too verbose::
+
+  if (test())
+    f(x)
+  else
+    g(x)
+  end
+
+and you'd rather be able to write it this way::
+
+  iff(test(), f(x), g(x))
+
+You can't just write ``iff`` as a function because then both ``f(x)`` and ``g(x)`` will be evaluated.  The following macro will do the trick::
+
+  define macro iff
+    { iff(?test:expression, ?true:expression, ?false:expression) }
+    => { if (?test) ?true else ?false end }
+  end;
+
+
+See more {{code examples}}.
