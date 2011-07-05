@@ -25,6 +25,6 @@ See also:
 
 * {{drm: Built-In_Macros_and_Special_Definitions, Built-in macros}} -- Many of the basic features of Dylan are implemented as macros.
 
-* The {{drm: Macros}} chapter in the {{drm: DRM, Index}}.
+* The {{drm: Macros}} chapter in the {{drm: Index, DRM}}.
 
 See more {{code examples}}.
