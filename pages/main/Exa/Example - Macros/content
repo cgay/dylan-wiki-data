@@ -19,5 +19,12 @@ You can't just write ``iff`` as a function because then both ``f(x)`` and ``g(x)
     => { if (?test) ?true else ?false end }
   end;
 
+You can see a version of this macro that also accepts the syntax ``iff(test(), f(x))`` in `this file <https://github.com/dylan-lang/uncommon-dylan/blob/master/uncommon-dylan.dylan>`_.  You may also be interested in several other simple macros in that file, such as ``inc!``, ``dec!``,  and ``ignore-errors``.
+
+See also:
+
+* {{drm: Built-In_Macros_and_Special_Definitions, Built-in macros}} -- Many of the basic features of Dylan are implemented as macros.
+
+* The {{drm: Macros}} chapter in the {{drm: DRM, Index}}.
 
 See more {{code examples}}.
