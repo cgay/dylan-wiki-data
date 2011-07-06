@@ -1,31 +1,21 @@
+
 .. contents::
 
 
+This is the general FAQ for people interested in the Dylan programming language.
+You may also be interested in one of these FAQs as well:
 
-Where is the Dylan Language FAQ?
---------------------------------
-
-{{Dylan Language FAQ}}
-
-
-Where is the Open Dylan FAQ?
-----------------------------
-
-{{Open Dylan FAQ}}
+* {{Dylan Language FAQ}}
+* {{Open Dylan FAQ}}
+* {{Gwydion Dylan FAQ}}
 
 
-Where is the Gwydion Dylan FAQ?
--------------------------------
+What implementations are available?
+-----------------------------------
 
-{{Gwydion Dylan FAQ}}
-
-
-Which Implementation Should I Use?
-----------------------------------
-
-In short, {{Open Dylan}} is more complete, but {{Gwydion Dylan}}
-generates faster code. If you use Microsoft Windows, it's recommended
-to use Open Dylan, because it includes an IDE.
+There are two implementations of Dylan: {{Gwydion Dylan}} and {{Open Dylan}}.
+Open Dylan has a more complete set of libraries and on Windows includes a
+full-featured IDE.  Gwydion Dylan often generates faster code.
 
 See the {{Dylan Implementations}} page for more information.
 
@@ -89,4 +79,3 @@ There is no shortage of projects to work on.  Here are a few ideas:
 * Unicode support
 
 * How about an Eclipse plugin?
-
