@@ -1,0 +1,267 @@
+.. contents::
+
+How do I set up the Open Dylan IDE?
+-----------------------------------
+
+The IDE only works on Windows for now.  On all other platforms you
+must use the command-line compiler.
+
+* Download the Windows installer for Open Dylan from the {{Download}} page.
+
+* Install {{Open Dylan}}.  ({{Open Dylan 1.0 Beta 5}} is current as of
+  this writing.)
+
+* Use the System control panel to set your LIB, PATH, and INCLUDE
+  environment variables to point to the appropriate directories. For
+  example, for `Pelles C <http://www.smorgasbordet.com/pellesc/>`_
+  (recommended) you will need::
+
+    PATH=C:\Program Files\PellesC\bin;%PATH%
+    LIB=C:\Program Files\PellesC\Lib;C:\Program Files\PellesC\Lib\Win;%LIB%
+    INCLUDE=C:\Program Files\PellesC\include;C:\Program Files\PellesC\include\Win;%INCLUDE%
+
+Now start up Open Dylan and you should be able to open and compile one
+of the example projects.
+
+If you're doing more than just playing with Open Dylan you'll also
+need to tell it how to find your project sources by telling it where
+the "registries" are.  See the question "How do I set up my Open Dylan
+source checkout?" below.
+
+
+How do I use the command-line compiler?
+---------------------------------------
+
+The command-line compiler is named "opendylan" in the released
+tarball, but if you build it yourself it will be called
+"minimal-console-compiler".  Build products will go in ~/Open-Dylan by
+default, which can be overridden by setting OPEN_DYLAN_USER_ROOT. Open
+Dylan uses a registry to locate project source code, so you'll want to
+set the OPEN_DYLAN_USER_REGISTRIES environment variable to a directory
+set aside for that purpose.  ::
+
+  export OPEN_DYLAN_USER_REGISTRIES=/home/you/dylan/git/registry:\
+  /home/you/dylan/git/opendylan/sources/registry
+
+See the question "How do I set up my Open Dylan source checkout?"
+below.
+
+To compile, just say
+
+  opendylan -build <lid-file>
+
+The first build will take a while because Open Dylan has to compile
+all the system libraries, but subsequent builds are faster.
+
+You can also just type opendylan<Enter>.
+Then type "help".  A typical usage might look like this::
+
+  opendylan <Enter>
+  open my-project <Enter>  // assumes my-project in registry
+  build <Enter>
+  <modify my-project>
+  build <Enter>            // or just press <Enter>
+  ...repeat the previous two steps...
+
+Note that there's a bad bug wherein warnings for subprojects aren't
+always displayed, so you have to look carefully at the output for
+lines like this::
+
+   There were 2 warnings, 1 serious warnings and 0 errors.
+
+If there are warnings they'll be in
+$OPEN_DYLAN_USER_ROOT/build/<library>/<library>.log.  Warnings for the
+top-level project are displayed correctly so if you don't modify
+subprojects for a given build things work as you would expect.
+
+How do I set up my Open Dylan source checkout?
+----------------------------------------------
+
+The Open Dylan sources are stored in a Git repository alongside the
+Gwydion Dylan sources and other related projects.  ::
+
+  git clone git@github.com:dylan-lang/opendylan
+
+
+Open Dylan finds projects by looking in its "project registries".
+Each registry entry is a one line file that points to a project's
+source directory, relative to the registry itself.  For convenience
+opendylan has a registry in opendylan/sources/registry that contains
+entries for all of the projects needed to build Open Dylan itself.
+There is also a registry at git@github.com:dylan-lang/registry that
+has entries for most of the other Dylan libraries.  It assumes that
+those libraries are all checked out at the same level as itself.
+For example::
+
+  mkdir git
+  cd git
+  git clone git@github.com:dylan-lang/registry
+  git clone git@github.com:dylan-lang/http
+  git clone git@github.com:dylan-lang/...
+
+All registry directories must be added to the
+OPEN_DYLAN_USER_REGISTRIES environment variable using the System
+control panel.  For example::
+
+  OPEN_DYLAN_USER_REGISTRIES=C:\...\git\registry;C:\...\git\opendylan\sources\registry
+
+Now test for correctness by loading one project from the opendylan
+directory and one from outside the opendylan directory.  Use the
+"Internal > Open Registry Project" menu item to open (for example) the
+"dylan" project from the "opendylan" registry.  Similarly open (for
+example) the "regular-expressions" project, which lives in the other
+registry.
+
+You should be able to build each project.  You will see several
+serious warnings from the dylan project, which can be ignored, and
+there will also be some non-serious warnings from both projects.
+
+How can I build the IDE with Open Dylan?
+----------------------------------------
+
+See the page {{Build win32-environment with opendylan}}
+
+How can I bootstrap Open Dylan on PowerPC?
+------------------------------------------
+
+See the page {{BootstrappingOpenDylanOnPPC}}
+
+How to build Open Dylan with Boehm GC on Linux/FreeBSD
+------------------------------------------------------
+
+Working dir is sources/lib/run-time/pentium-freebsd!
+
+* put the define BOEHM_GC in x86-linux-collector.c and x86-linux-thread-primitives.c back in.
+* change the Makefile to contain -I/usr/local/include (where gc/gc.h is)
+* you need to have mps headers around
+* change x86-freebsd-build-jam, replace -lmmdw -lmpsplan by -lgc
+
+Windows: I get "rc.exe not found" error when building
+-----------------------------------------------------
+
+
+Your C compiler's bin directory needs to be included in your PATH
+environment variable. For Visual Studio 2005 Express Edition, this
+could be C:\Program Files\Microsoft Visual Studio 8\VC\bin.  For
+PellesC it is usually C:\Program Files\PellesC\bin.
+
+Windows: can't find windows.h (or excpt.h) when building
+--------------------------------------------------------
+
+Your windows headers need to be included in your %INCLUDE%. For Visual Studio 2005 Express Edition, this is in the following directories::
+
+  C:\Programme\Microsoft Visual Studio 8\VC\include
+  C:\Programme\Microsoft Platform SDK for Windows Server 2003 R2\Include
+
+Please see the note about environment variables under windows above.
+
+Windows: can't find mspdb80.dll (or a similar mssomething.dll) when building
+----------------------------------------------------------------------------
+
+Your windows libraries need to be included in your %PATH% (and maybe
+%LIB%). For Visual Studio 2005 Express Edition, this is in
+``C:\Programme\Microsoft Visual Studio 8\Common7\IDE`` Please see the
+note about environment variables under windows above.
+
+Windows: I get an error about "LINK : fatal error LNK1201: error writing to program database". What's wrong?
+------------------------------------------------------------------------------------------------------------
+
+There's a bug in Microsoft's dbghelp.dll, a helper DLL for debugging
+programs.  To fix the problem, either install a sufficiently recent
+version of that DLL in ``C:\Program Files\Open Dylan\bin``, or upgrade
+your Open Dylan installation.
+
+As of Dec 2007 I am using version 6.5.something.  --cgay
+
+Can I use Open Dylan as just in time debugger (JIT) on Windows?
+---------------------------------------------------------------
+
+Yes, you can! Your registry entry for AeDebug (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AeDebug) should look like (I had to add the key Debugger)::
+
+  Debugger = "C:\Program Files\Open Dylan\bin\win32-environment" /p:%ld /e:%ld
+
+
+What environment variables affect Open Dylan
+--------------------------------------------
+
+(Note that Windows environment variables such as PATH, LIB, and
+INCLUDE also affect Open Dylan.  See elsewhere in this FAQ.)
+
+These are the most commonly used environment variables:
+
+* OPEN_DYLAN_USER_ROOT is where the build products end up.  If not set on Linux ~/Open-Dylan/ is used.  On Windows the default is C:\Documents and Settings\username\Application Data\Open-Dylan\.
+
+* OPEN_DYLAN_USER_INSTALL is where the dynamically linked libraries and executables are saved.  If this is not set the value of OPEN_DYLAN_USER_ROOT will be used.
+
+* OPEN_DYLAN_USER_BUILD is where build products are saved.  If not set then $OPEN_DYLAN_USER_ROOT/build is used.
+
+* OPEN_DYLAN_USER_REGISTRIES is a list of directories to search for registry entries when trying to find the source for a library.  Example: /you/dylan/trunk/libraries/registry:/you/dylan/trunk/fundev/registry
+
+
+----
+
+These are used less commonly, and some probably not at all, but they're used in
+the sources:
+
+* OPEN_DYLAN_USER_SOURCES
+* OPEN_DYLAN_USER_BIN
+* OPEN_DYLAN_USER_LIB
+* OPEN_DYLAN_RELEASE_ROOT
+* OPEN_DYLAN_RELEASE_BUILD
+* OPEN_DYLAN_RELEASE_INSTALL
+* OPEN_DYLAN_RELEASE_SOURCES
+* OPEN_DYLAN_RELEASE_REGISTRIES
+* OPEN_DYLAN_C_FLAGS
+* OPEN_DYLAN_LINKAPP_FLAGS
+* OPEN_DYLAN_LINKLIB_FLAGS
+* OPEN_DYLAN_LD
+* OPEN_DYLAN_LIBRARY_PACKS
+* OPEN_DYLAN_PLATFORM_NAME
+* SDK4MEMORY_POOL_SYSTEM
+* LD_LIBRARY_PATH
+* OPEN_DYLAN_USER_PROJECTS
+* OPEN_DYLAN_BUILD_LOGS
+
+What Linkers are Supported?
+---------------------------
+
+On Wed, Sep 28, 2005 at 05:55:51AM +0200, Matthias H?lzl wrote::
+
+  Currently debugging does not work if you use VS .NET, since Open Dylan
+  does not yet understand the debug information generated by the .NET
+  linker.  Stack traces are often missing or not correct and after running
+  an application from inside the development environment the linker will
+  fail most of the time.
+
+  If you have a version of Visual Studio 6.0 or Visual C++ 6.0 I would
+  recommend using this, otherwise I would recomment using PellesC.  Having
+  VS 6.0 or Pelles C installed together with VS .NET is no problem, that's
+  what I use on my computer as well.
+
+  With Visual C 6.0 you should probably use the values for the Path and
+  Lib environment variables that the Visual Studio command prompt
+  defines.  For me the VS specific parts of these environment variables are
+
+  LIB = C:\Program Files\Microsoft Visual Studio\VC98\mfc\lib;C:\Program
+  Files\Microsoft Visual Studio\VC98\lib
+
+  PATH = C:\Program Files\Microsoft Visual
+  Studio\Common\Tools\WinNT;C:\Program Files\Microsoft Visual
+  Studio\Common\MSDev98\Bin;C:\Program Files\Microsoft Visual
+  Studio\Common\Tools;C:\Program Files\Microsoft Visual Studio\VC98\bin
+
+  I usually define INCLUDE as well, although I don't think this is necessary:
+
+  INCLUDE = C:\Program Files\Microsoft Visual
+  Studio\VC98\atl\include;C:\Program Files\Microsoft Visual
+  Studio\VC98\mfc\include;C:\Program Files\Microsoft Visual
+  Studio\VC98\include
+
+  If you use PellesC you need to define the following environment
+  variables (these are from a German version of Windows, so you will have
+  to replace Programme with Program Files if you use an English version of
+  Windows),
+
+  LIB = C:\Programme\PellesC\lib;C:\Programme\PellesC\lib\Win
+  PATH = <whatever you have now>;C:\Programme\PellesC\bin
+  INCLUDE = C:\Programme\PellesC\include;C:\Programme\PellesC\include\Win
