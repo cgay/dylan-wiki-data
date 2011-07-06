@@ -25,21 +25,6 @@ What implementations are available?
 See the {{Dylan Compilers}} page.
 
 
-What Development Environments are Available?
---------------------------------------------
-
-Open Dylan includes a full-featured IDE with an interactor (REPL),
-integrated editor, debugger, project wizard, etc.  The IDE is only
-available on Windows.
-
-Open Dylan also supports development in Emacs via SLIME.  We have
-implemented a Dylan back-end for SLIME called DSWANK.
-
-Gwydion Dylan only supports command-line development.
-
-See the {{Development Environments}} page for details.
-
-
 What Resources Are Available to Learn From?
 -------------------------------------------
 
