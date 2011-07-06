@@ -1,0 +1,34 @@
+.. contents::
+
+
+What is Gwydion Dylan?
+----------------------
+
+*TODO*
+
+
+My error says "unknown source location". What can I do?
+-------------------------------------------------------
+
+You can get a backtrace in gdb by setting a breakpoint on ``abort()``
+with ``break abort`` before you start your program using ``run``. When
+the runtime error occurs, typing ``bt`` will get you a stack trace,
+which is often very helpful. Take the line numbers with a grain of
+salt, though.
+
+
+How Can I Build Gwydion Dylan from Source?
+------------------------------------------
+
+(Fill in details about environment variables and install dirs and doc links, etc.)
+
+* ./autogen.sh
+* make
+* sudo make install
+
+
+How can I make the build put build products outside the source directories?
+---------------------------------------------------------------------------
+
+*TODO*
+
