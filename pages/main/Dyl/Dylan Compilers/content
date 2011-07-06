@@ -1,4 +1,3 @@
-
 Open Dylan
 ==========
 
@@ -8,7 +7,11 @@ Windows, and BSD, and has a C back-end that can be used on other
 architectures.  The IDE only works on Windows due to lack of debugger
 and GUI support on other platforms.  {{Open Dylan}} was originally a
 commercial product called "Harlequin Dylan", sold by Harlequin, Inc.
-Work on an LLVM back-end is currently (June 2011) underway.
+Work on an LLVM back-end is currently (June 2011) well underway.
+
+Open Dylan also supports development in Emacs via SLIME. The Dylan
+back-end for SLIME is called DSWANK.
+
 
 
 Gwydion Dylan
@@ -18,7 +21,8 @@ Gwydion Dylan
 compiler that generates fast code slowly.  It is missing some
 important libraries like threads and networking.  {{Gwydion Dylan}}
 was originally written by the Gwydion group at the Carnegie Mellon
-University.
+University.  Gwydion Dylan only supports command-line development.
+
 
 Historical projects
 ===================
@@ -37,10 +41,11 @@ Historical projects
 * {{Dyva}}, a crazy hare-brained scheme to try and make a Dylan system
   that runs on the JVM.
 
+
 See Also
 ========
 
 * {{Implementing Dylan Compilers,
-    What are challenges in implementing a Dylan Compilers}}
+    What are challenges in implementing a Dylan Compiler}}
 * {{Incompatibilities Between OD and GD}}
 * {{Dylan Dev Environments}}
