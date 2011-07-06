@@ -1,3 +1,5 @@
+.. contents::
+
 
 Open Dylan 1.0 beta 5
 ---------------------
@@ -22,3 +24,165 @@ Changes:
 Installing:
 
 * Make sure to delete ~/Open-Dylan on Unix systems.
+
+
+Open Dylan 1.0 Beta 4
+---------------------
+
+Released date:  April 2007
+
+
+Download
+~~~~~~~~
+
+The release binaries are available from `here </static/download/opendylan/1.0beta4/>`_.
+
+This release corresponds to svn revision 11304, tag opendylan-1.0beta4-win32.
+
+The FreeBSD port works only on FreeBSD7, because protection faults handled by
+the garbage collector are done via SIGSEGV (was SIGBUS previously)
+
+
+Windows Requirements
+~~~~~~~~~~~~~~~~~~~~
+
+This snapshot has been tested with Windows XP.  As of this snapshot, we support
+the following linkers:
+
+* Microsoft Visual C++ version 6.0 -- This is the linker used to build this
+  snapshot, and is currently the best-supported.  (It is no longer available
+  for sale without purchasing a "downgrade", however.)
+
+* Microsoft Visual C++ .NET and Microsoft Visual C++ .NET 2003 -- The VC7
+  linker can be used to build most programs, but Functional Developer's support
+  for the debugging information (i.e., PDB files) it produces is incomplete.
+  (See `bug 7078 <http://www.gwydiondylan.org/bugs/show_bug.cgi?id=7078>`_ to
+  track progress on this issue.)
+
+* `Visual C++ 2005 Express Edition
+  <http://msdn.microsoft.com/vstudio/express/visualc/default.aspx>`_ -- The
+  freely downloadable Visual C++ also supplies the VC7 linker.  Since the
+  Toolkit is missing a resource compiler, and only a few Win32 import libraries
+  are included, it needs to be used in concert with the `Microsoft Platform SDK
+  <http://www.microsoft.com/msdownload/platformsdk/sdkupdate/>`_.
+
+* `Pelles C for Windows <http://www.smorgasbordet.com/pellesc/>`_ -- The freely
+  downloadable Pelles C for Windows (version 2.90.1 and later) is fully
+  supported, as its linker produces debugging information in the older format.
+
+
+Ubuntu Requirements
+~~~~~~~~~~~~~~~~~~~
+
+Required dependencies on Ubuntu are listed {{Open Dylan on Ubuntu}}.
+
+
+Known Problems
+~~~~~~~~~~~~~~
+
+* On Windows you will need to set LIB to point to your Windows .lib files
+  (kernel32.lib etc).  PATH must include the linker you're using (link.exe,
+  polink.exe, etc) and the directory containing mspdb80.dll.  INCLUDE must
+  include the directory containing windows.h.  The installer doesn't set these
+  up for you.
+
+* On Windows there are reports of files staying locked by the IDE such that
+  they can't be edited etc.  This is thought to be due to a bug in
+  dbghelp.dll. Installing a sufficiently recent dbghelp.dll (from Microsoft or
+  from our SVN) in ``$(PROGRAM_FILES)\Open Dylan\bin`` should fix it. (Error
+  message is ``LINK : fatal error LNK1201: error writing to program database
+  'C:\build\bin\duim-gl-demo.pdb'; check for insufficient disk space, invalid
+  path, or insufficient privilege``)
+
+* If you want to use the IDE to build itself, please follow instructions at
+  {{Build win32-environment with opendylan}}
+
+
+Reporting Problems
+~~~~~~~~~~~~~~~~~~
+
+The Windows IDE can be run under batch-debug.exe, which will write out a full
+backtrace (of all threads) to standard output in the event of a crash.
+
+Please report any problems via `bugzilla
+<http://www.opendylan.org/cgi-bin/bugzilla/enter_bug.cgi?product=OpenDylan>`_.
+
+
+The 1.0 beta 4 announcement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+  Dear Dylan Hacker,
+
+  I am proud to announce the Open Dylan 1.0 beta 4 release. This is the
+  first public release for all supported platforms: Windows (x86), Linux
+  (x86), FreeBSD (x86), Mac OS X (ppc and x86). The IDE is still only
+  available on Windows so far, on all other OS only a batch-compiler is
+  working. But we are working on a GTK+ 2.x backend for DUIM.
+
+  The release was done by the Dylan Maintainers, a group of Dylan users
+  all over the world, communicating via the gd-hackers@gwydiondylan.org
+  mailing list as well as via IRC, irc.freenode.net, channel #dylan.
+  Please let us know about any problems you encounter.
+
+  Open Dylan was formerly known as Functional Developer, formerly known
+  as Harlequin Dylan.
+
+
+The released binaries are available `here
+</static/download/opendylan/1.0beta4/>`_.
+
+
+Partial list of resolved issues
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* The c back end of DFMC works now, and is used on Mac OS X. This eases porting
+  the compiler to various architectures.
+
+* 'macroexpand expression' is now working in system and user projects. This can
+  be invoked either via the IDE or via the interactive compiler environment.
+
+* SO_REUSEADDR is set on sockets opened, so an application can open a socket
+  which has old connections in use. No need to wait until connections are gone
+  from TIME_WAIT state. This only affects the UNIX OS.
+
+* "{complex type}" was shown when a non-class type was used somewhere. This was
+  not very helpful in the IDE as well as in error messages of the compiler.
+
+* expiration checks are removed. When developed commercially, all libraries had
+  an expiration date, which is no longer useful because the source is public
+  now.
+
+* a primitive stack walker has been implemented for UNIX. This helps to debug
+  Dylan applications, because gdb does not work for them.
+
+* streams were not locked, so race conditions were possible. We chose to be
+  better safe than sorry, and all streams are now locked by default.
+
+* On linux, __errno_location was used to get the value of errno when a system
+  call failed. This is no longer supported by glibc and lead to crashes.
+
+* In the IDE all possible restarts were labeled with "Undescribed restart",
+  which was not really useful. This was an initialization problem.
+
+* The IDE editor had the problem "#f is not of type {<class>: <basic-line>}"
+  when adding a line to a definition shown in multiple buffers.
+
+* The IDE didn't support breakpoints in dependent projects because the list of
+  libraries was not initialized correctly.
+
+* IDE: Force links of projects by default
+
+* IDE: Fix annoying scrolling bug in deuce.
+
+* IDE: Windows can be larger than the size of the primary display.
+
+* IDE: Adding and removing elements to list views was broken in a corner case.
+
+* IDE: LVS_EX_FULLROWSELECT is now used; this enables a user to select any
+  column of a table instead of only the first.
+
+* Bug 7338 is fixed.
+
+* Bug 7323 is fixed.
