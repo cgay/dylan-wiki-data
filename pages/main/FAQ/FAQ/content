@@ -22,11 +22,7 @@ Where is the Gwydion Dylan FAQ?
 What implementations are available?
 -----------------------------------
 
-There are two implementations of Dylan: {{Gwydion Dylan}} and {{Open Dylan}}.
-Open Dylan has a more complete set of libraries and on Windows includes a
-full-featured IDE.  Gwydion Dylan often generates faster code.
-
-See the {{Dylan Implementations}} page for more information.
+See the {{Dylan Compilers}} page.
 
 
 What Development Environments are Available?
