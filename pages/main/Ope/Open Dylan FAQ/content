@@ -16,8 +16,8 @@ must use the command-line compiler.
 
 * Download the Windows installer for Open Dylan from the {{Download}} page.
 
-* Install {{Open Dylan}}.  ({{Open Dylan 1.0 Beta 5}} is current as of
-  this writing.)
+* Install {{Open Dylan}}.  ({{Open Dylan Releases,Open Dylan 1.0 Beta 5}} is
+  current as of July 2011.)
 
 * Use the System control panel to set your LIB, PATH, and INCLUDE
   environment variables to point to the appropriate directories. For
