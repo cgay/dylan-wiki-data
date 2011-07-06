@@ -1,0 +1,24 @@
+
+Open Dylan 1.0 beta 5
+---------------------
+
+Changes:
+
+* gtk-duim with type-safe gtk binding
+* support COFF files with more than 2 ^ 16 - 1 relocations
+* C-FFI tracer
+* stack trace on linux in case of an unhandled exception (and a SIGTRAP)
+* support to include jam files in lid files (example: gtk)
+* finalization with boehm-gc
+* harp, assemble and dfm output of the command line compiler
+* various improvements to the build system
+* better POSIX and Darwin compatibility
+* changed copy-bytes argument order to destination-first
+* fixed bug "Failed to allocate stack in Spy call"
+* Fixed bug 4835: Duplicate buffers in IDE editor
+* fixed file system stuff (broken in beta4 on linux http://paste.lisp.org/display/54145)
+* Previously, when checking a limited collection type against a type-union, they didn't match, even when the type-union contained the limited collection type. This is fixed by correcting subtype?.
+
+Installing:
+
+* Make sure to delete ~/Open-Dylan on Unix systems.
