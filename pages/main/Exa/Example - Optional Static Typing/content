@@ -1,0 +1,7 @@
+`quicksort.dylan <https://github.com/dylan-lang/opendylan/blob/master/sources/app/quicksort/quicksort.dylan>`_
+shows an example of three different quicksort implementations,
+each with different amounts of static typing.
+
+
+*TODO -- fill this in and add screen shots of the dispatch colorization*
+
