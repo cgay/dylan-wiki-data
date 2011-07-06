@@ -1,0 +1,326 @@
+
+General Questions
+-----------------
+
+What is this language? I have never heard of it before.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+One reductionist breakdown might be: Dylan = Scheme + CLOS + Smalltalk
++ Pascal
+
+* Scheme for basic semantics.
+* Common Lisp Object System (CLOS) for the object system, and exception handling.
+* Smalltalk for "objects all the way down".
+* A mix of C and Pascal for syntax.
+
+An oversimplified historical view is that Dylan was originated by
+Apple as an attempt to bring some of the power of the Lisp family of
+languages to mainstream programming, by:
+
+* Rationalizing some historical baggage (e.g., replacing multiple
+  different sequence functions with "choose")
+* Dropping some of the more complex/advanced/tangled features
+* Making application/component delivery and deployment easier
+* Adding a more familiar syntax
+
+Dylan is often spoken of as a "replacement for C++", meaning that it
+has all the industrial-strength features, power, and flexibility of
+C++, but with the benefits of being thoughtfully designed from the
+ground up, rather than being kludged together over time.
+
+See also, {{About Dylan}}.
+
+
+Is Dylan a functional languages?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+The functional community is split into two camps: The purists and the
+non-purists. A lot of Dylan code is written in a purely functional
+style.  Dylan does not preclude doing this, and in fact, it is easy to
+do so.  However, purists could rightfully point out that Dylan does
+not *require* a functional style.  Rule of thumb: If on a list of
+functional languages, for example, Common Lisp, Scheme or OCaml, are
+mentioned, then Dylan certainly should be too, because like them Dylan
+has all the features needed to be used in a purely functional style,
+but doesn't force you into programming that way.
+
+Does Dylan suffer the same flaw as C++ in presence of "diamond inheritance"?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+According to the `Dylan Reference Manual (DRM) </static/books/drm/>`_:
+
+    If a superclass is inherited through multiple paths, its slots are
+    inherited once. For example, if class A has direct superclasses B and
+    C, and both B and C have D as a direct superclass, A inherits from D
+    both through B and through C, but the slots defined by D are only
+    counted once. Because of this, multiple inheritance does not by itself
+    create any duplicates among the getters and setters.
+
+So diamonds are OK. Mixin clashes (C inherits slot "count" of type
+<integer> from both object A and object B) aren't allowed, though:
+
+    Note that two classes that specify a slot with the same getter or
+    setter generic function are disjoint; they can never have a common
+    subclass and no object can be an instance of both classes.
+
+Note that it is no problem to have different generic getter or setter
+functions with the same name, you can always rename the function on
+import to the module.
+
+
+When defining a method on my class <baz> I get errors as soon as I try to access its methods.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ define method quux(baz :: <baz>)
+   count-feet();     // error here
+   baz.count-feet(); // here too
+ end;
+
+Both errors are due to improper method access.  The first error is
+(indirectly) telling you that count-feet needs an argument; it should
+be written as
+
+   count-feet(baz);
+
+The second error is an interesting one: the {{Dylan Language}} has
+some syntactic sugar that allows this transformation:
+
+  count-feet(baz) => baz.count-feet  // no parentheses on the right-hand call
+
+When you add the parentheses, you are, surprisingly, informing the
+compiler that the result of baz.count-feet is a ''function'' to be
+called, so you're actually making two function calls: fetching the
+function of baz.count-feet and then calling that function.  Quick fix:
+drop the parentheses::
+
+
+  baz.count-feet
+
+to get the result or to perform the operation.
+
+Actually the two forms are competely interchangeable::
+
+ "Hello World!".size <===> size("Hello World!")
+
+this makes an interesting complex number notation possible::
+
+ let c :: <complex> = 3 + (5).i; // where ''i'' is is a self-defined function to
+                                 // convert a real to an imaginary number
+
+The parentheses around the "5" are needed so that no attempt is made
+to parse "5.i" as a floating point number.
+
+
+Dylan class definitions only seem to mention data that is contained in instances. How do I define the methods for a class?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Dylan's approach to object orientation takes a different tack than
+many other languages.  In C++, Java or Smalltalk, methods and data
+members are part of the class, so that the class is its own small
+namespace, controlling the visibility of the names defined within.  In
+Dylan, slot names exist at the same level as classes and other global
+declarations, and access to them is controlled using the module system
+just like any other name.
+
+Object methods are not "under" objects in Dylan either.  Instead,
+methods belong to {{Generic Functions}}, functions that can be
+specialized on the types of one or more of their arguments.  The
+{{MultiMethods}} page describes how this works.
+
+
+What is an "abstract instantiable class"? Isn't that a contradiction?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Dylan's ``define class`` supports the ``abstract`` adjective, which by
+default means that the class is not instantiable.  However, it is
+possible to override ``make`` so that it instantiates a concrete
+subclass of the named class::
+
+  define open abstract class <abstract-foo> (<object>)
+  end;
+
+  define class <concrete-foo> (<abstract-foo>)
+  end;
+
+  define sealed method make
+      (class == <abstract-foo>, #rest key-value-pairs, #key, #all-keys)
+   => (instance :: <abstract-foo>)
+    apply(make, <concrete-foo>, key-value-pairs)
+  end;
+
+This allows the abstract class to be left *open* (and therefore
+extensible by users of the library) while still providing an efficient
+
+default *sealed* concrete class.  To ensure clean interfaces, often
+the name of the concrete class is not exported from the library.
+
+An real life example is ``<string>``.  ``make(<string>, size: 3)``
+actually returns an instance of ``<byte-string>``.
+
+
+Does Dylan support procedural macros?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Dylan doesn't have Lisp-style procedural macros as standard. {{Open
+Dylan}} has them internally to the compiler; they're not available
+to users.
+
+Dylan macros are still powerful; they're clean, modular, and can
+handle iteration and recursion. They can look like function calls,
+bare words, or more complex structures. Like Lisp, much of the
+language such as defining classes, defining methods, for loops and
+resource locks are written as macros.
+
+
+Does Dylan have a Meta Object Protocol?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+No. Well, there may be one hidden inside the compiler, but you won't
+be able to access it.  First, unless the compiler takes some really
+heroic measures to optimize, a MOP is somewhat of a
+performance-killer, albeit incredibly powerful.  This is in conflict
+with Dylan's speed objective.
+
+
+In what way is Dylan a "dynamic" language?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Dynamic Languages Group at MIT says that it's all about having a
+{{MetaObjectProtocol}} http://www.ai.mit.edu/projects/dynlangs,
+but in light of the previous answer Dylan must mean something else.
+
+What counts as "dynamic" is in the eye of the beholder, depending on
+your point of view.  While Dylan is a dynamic language, and is
+certainly more dynamic than C/C++, it is (by design) *less* dynamic
+than languages such as Common Lisp, Scheme, and Smalltalk.
+
+We believe that Dylan is at a "sweet spot" in the static-dynamic
+programming language continuum with respect to general-purpose
+programming tasks.  (Additionally, Dylan leaves the door open to the
+addition of more dynamic facilities in future revisions of the
+language, should the need arise.)
+
+
+Why should I use Dylan rather than Lisp?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+I can see its advantages over C++ or Java, but once you learn Lisp
+syntax is Dylan still easier or better to work with and if so, why?
+
+Dylan has most of the strengths of Common Lisp, with a few additional advantages:
+
+
+* Dylan compilers are designed for application delivery, producing a
+  standalone executable (possibly split over a number of DLLs).  Some
+  commercial Common Lisp compilers have this capability, but most free
+  compilers do not.
+
+* Dylan's macro system is higher-level, and hygienic, giving clean
+  referential transparency in the default case but allowing exceptions
+  when needed.
+
+* Dylan has a completely integrated object system, in which every
+  object is an instance of some class.
+
+* Dylan lists, vectors, arrays, etc. are designed around a
+  rationalized <collection> class hierarchy.
+
+* Programs written using Dylan's infix syntax are probably easier to
+  read for people unfamiliar with the language than Lisp programs are.
+  (Of course, functional style and multimethods will still confuse
+  people, but you can't have everything).
+
+* Dylan's module system is simpler, more hygenic, and just as powerful
+  as Common Lisp's package system.
+
+
+Can Dylan interface with C code?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Both Open Dylan and Gwydion Dylan provide full-strength facilities to
+interface with C code. C functions can be called from Dylan and Dylan
+callbacks can be passed to C API functions. {{Open Dylan}} can use the
+C-FFI or COM objects, and {{Gwydion Dylan}} can just wrap C headers
+with its {{Melange}} tool.
+
+
+Why Don't More People Use Dylan?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Historically speaking, just as Dylan was becoming mature enough for
+widespread use, Java was introduced and targeted at the extremely hot
+area of internet programming.  Java was successful enough in its own
+niche, strongly supported by Sun Microsystems, and "good enough" for a
+lot of things, so that it managed to win mindshare over many
+programming languages that could be considered superior.  This, and
+the financial challenges Apple was experiencing at the time, led them
+to cancel the {{Apple Dylan}} project rather than spend the money
+required to promote the language.
+
+Today, Dylan doesn't have the level of support for multiple platforms
+that an industrial strength language implementation needs to have
+because its development hasn't kept up with the pace of hardware and
+OS changes.  We are working to fix that.
+
+How Can I Implement the Singleton Pattern?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+FILL ME IN
+
+
+Dispatching
+-----------
+
+Why does Dylan allow dispatching on instances?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In Dylan it gets used for separating public abstract interface classes
+and private concrete implementation classes.  See {{How to build a
+mechanism for dynamic dispatching?}}
+
+What's the use of an abstract interface if only one implementation can exist?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There can be situations where it is useful to have the decision of
+what concrete class to return made at runtime, without the client
+class having to know the details.  For example, in {{DUIM}} when you
+say  ::
+
+  make(<button>, ...)
+
+you actually get an instance of a different concrete subclass of
+<button> depending on what platform you're on.
+
+
+Other Questions
+---------------
+
+How can I make my library work as both an executable and a used library?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Dylan language doesn't define a way to do this, specifically, but
+it can be done if you don't mind hard-coding the name of the
+executable.  For example, a very common case is a test suite library,
+where you want to be able to use the test suite in a higher level,
+combined test suite library, and you also want to be able to run the
+specific test suite as an executable.  Here's how the
+strings-test-suite library does it::
+
+  define method main () => ()
+    let filename = locator-name(as(<file-locator>, application-name()));
+    if (split(filename, ".")[0] = "strings-test-suite")
+      run-test-application(strings-test-suite);
+    end;
+  end method main;
+
+  begin
+    main()
+  end;
+
+The application-name function lives in operating-system:system.
+locator-name lives in locators:system.
+
+One proposal is to specify the main function in the library's .lid
+file.  The run-time would run all top-level code and then call the
+declared main function, if any.
