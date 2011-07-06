@@ -27,4 +27,4 @@ by overriding ``initialize``.  ::
     define constant $black-car = make(<car>, model: "Town Car", sunroof?: #t);
     define constant $red-car = make(<car>, model: "F40", sunroof?: #f);
 
-See more {{Code Examples}}.
+See more {{code examples}}.
