@@ -5,9 +5,9 @@ decided by the types of all of the required arguments passed to the GF.  Conside
 
     define open generic add (seq :: <sequence>, new-element) => (new-seq :: <sequence>);
 
-This says that any method defined on ``add`` must accept two required arguments.
-The first argument must be a ``<sequence>`` and the second can be anything, since
-no type was declared for it.  The methods must return a single value which is a ``<sequence>``.
+This says that any method defined on {{drm: add}} must accept two required arguments.
+The first argument must be a {{drm: <sequence>}} and the second can be anything, since
+no type was declared for it.  The methods must return a single value which is a {{drm: <sequence>}}.
 
 There are two more things two note about this GF declaration:
 
