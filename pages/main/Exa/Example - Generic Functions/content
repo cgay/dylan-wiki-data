@@ -28,7 +28,7 @@ define a very general method on ``add`` we write this::
   end;
 
 Now, let's say you decide it would be good to have a method specifically for
-``<vector>``s because you think it will be more efficient than the default implementation,
+``<vector>`` because you think it will be more efficient than the default implementation,
 even though the default will do the right thing.  You could write this::
 
   define method add (v :: <vector>, new-element) => (new-v :: <vector>)
