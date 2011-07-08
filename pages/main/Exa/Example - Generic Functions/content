@@ -9,7 +9,7 @@ This says that any method defined on {{drm: add}} must accept two required argum
 The first argument must be a {{drm: <sequence>}} and the second can be anything, since
 no type was declared for it.  The methods must return a single value which is a {{drm: <sequence>}}.
 
-There are two more things two note about this GF declaration:
+Also:
 
 #. The methods on this GF may not accept any optional (keyword)  arguments.
 #. The "open" adjective tells the compiler that other libraries may add methods to
