@@ -1,8 +1,7 @@
 Methods in Dylan aren't tied directly to a particular class like they are in many other languages.
 Instead a method belongs to a generic function (GF).  Which method actually gets called is 
-decided by the types of all of the required arguments passed to the GF.
-
-Consider the built-in {{drm: add}} generic function::
+decided by the types of all of the required arguments passed to the GF.  Consider the built-in
+{{drm: add}} generic function::
 
     define open generic add (seq :: <sequence>, new-element) => (new-seq :: <sequence>);
 
