@@ -35,4 +35,5 @@
   code can be annotated and specialized to give the compilers greater
   latitude to optimize.
 
-See also, the most excellent `introduction to Dylan </static/books/drm/Introduction>`_ in the DRM.
+See also, the most excellent {{drm: Introduction, introduction to Dylan}}
+in the DRM.
