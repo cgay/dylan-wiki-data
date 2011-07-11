@@ -4,7 +4,7 @@
   Everything is an object, including numbers, classes and functions.
 
 **Functional**
-  Dylan uses {{generic functions}}, in which the types
+  Dylan uses {{drm: Functions, generic functions}}, in which the types
   of all arguments determine which method will be invoked, rather than
   tying methods to individual classes.  It has full closures, lexical
   scoping, block structure, and is properly tail recursive.
@@ -25,7 +25,7 @@
 
 **Extensible, Powerful**
   Dylan, like Lisp, is easily extended via
-  {{macros}}.  These are far more powerful than preprocessor macros,
+  {{drm: Macros, macros}}.  These are far more powerful than preprocessor macros,
   e.g., allowing you to define new control constructs and defining
   forms.
 
