@@ -15,9 +15,9 @@ Dylan is a general purpose programming language that is designed to be fast,
 simple, and powerful.  The name "Dylan" is a portmanteau of "Dynamic" and
 "Language".
 
-See {{About Dylan}} for more.
+For more see {{About Dylan}}.
 
-.. Note: I would prefer to include About Dylan here but got an error.
+.. Note: I want to include About Dylan above, but it causes an error.  dbg
 
 
 Where can I see some Dylan Code?
@@ -137,6 +137,94 @@ See the {{Community}} page.
 
 Programming Questions
 ---------------------
+
+How Can I Implement the Singleton Pattern?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*TODO*
+
+
+Does Dylan allow dispatching on instances?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Yes!  For example, here's one way (not the best way) to define ``factorial`` by
+using "singleton dispatch"::
+
+    define constant <Z+> = limited(<integer>, min: 1);
+
+    define method factorial (n == 0) => (n! :: <integer>)
+      1
+    end;
+
+    define method factorial (n :: <Z+>) => (n! :: <integer>)
+      n * factorial(n - 1)
+    end;
+
+``factorial(2)`` will initially call the second method and then the recursive
+call will be to the first method because n = 0.  Note that ``n == 0`` is
+syntactic sugar.  The first method could also have been written this way::
+
+    define method factorial (n :: singleton(0)) => (n! :: <integer>)
+      1
+    end;
+
+{{drm: singleton}} defines a type that matches a specific object, essentially
+by pointer comparison.  To belabor the point a little bit, you could also write
+this::
+
+    define constant <zero> = singleton(0);
+
+    define method factorial (n :: <zero>) => (n! :: <integer>)
+      1
+    end;
+
+
+How can I make my library work as both an executable and a used library?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Dylan language doesn't define a way to do this, specifically, but
+it can be done if you don't mind hard-coding the name of the
+executable.  For example, a very common case is a test suite library,
+where you want to be able to use the test suite in a higher level,
+combined test suite library, and you also want to be able to run the
+specific test suite as an executable.  Here's how the
+strings-test-suite library does it::
+
+    define method main () => ()
+      let filename = locator-name(as(<file-locator>, application-name()));
+      if (split(filename, ".")[0] = "strings-test-suite")
+        run-test-application(strings-test-suite);
+      end;
+    end method main;
+
+    begin
+      main()
+    end;
+
+The application-name function lives in operating-system:system.
+locator-name lives in locators:system.
+
+One proposal is to specify the main function in the library's .lid
+file.  The run-time would run all top-level code and then call the
+declared main function, if any.
+
+
+Old FAQ Questions (to be retired)
+---------------------------------
+
+What's the use of an abstract interface if only one implementation can exist?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There can be situations where it is useful to have the decision of
+what concrete class to return made at runtime, without the client
+class having to know the details.  For example, in {{DUIM}} when you
+say  ::
+
+  make(<button>, ...)
+
+you actually get an instance of a different concrete subclass of
+<button> depending on what platform you're on.
+
 
 Does Dylan suffer the same flaw as C++ in presence of "diamond inheritance"?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -355,88 +443,3 @@ Today, Dylan doesn't have the level of support for multiple platforms
 that an industrial strength language implementation needs to have
 because its development hasn't kept up with the pace of hardware and
 OS changes.  We are working to fix that.
-
-How Can I Implement the Singleton Pattern?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-*TODO*
-
-
-Does Dylan allow dispatching on instances?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Yes!  For example, here's one way (not the best way) to define ``factorial`` by
-using "singleton dispatch"::
-
-  define constant <Z+> = limited(<integer>, min: 1);
-
-  define method factorial (n == 0) => (n! :: <integer>)
-    1
-  end;
-
-  define method factorial (n :: <Z+>) => (n! :: <integer>)
-    n * factorial(n - 1)
-  end;
-
-``factorial(2)`` will initially call the second method and then the recursive
-call will be to the first method because n = 0.  Note that ``n == 0`` is
-syntactic sugar.  The first method could also have been written this way::
-
-  define method factorial (n :: singleton(0)) => (n! :: <integer>)
-    1
-  end;
-
-{{drm: singleton}} defines a type that matches a specific object, essentially
-by pointer comparison.  To belabor the point a little bit, you could also write
-this::
-
-  define constant <zero> = singleton(0);
-
-  define method factorial (n :: <zero>) => (n! :: <integer>)
-    1
-  end;
-
-
-
-What's the use of an abstract interface if only one implementation can exist?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-There can be situations where it is useful to have the decision of
-what concrete class to return made at runtime, without the client
-class having to know the details.  For example, in {{DUIM}} when you
-say  ::
-
-  make(<button>, ...)
-
-you actually get an instance of a different concrete subclass of
-<button> depending on what platform you're on.
-
-
-How can I make my library work as both an executable and a used library?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The Dylan language doesn't define a way to do this, specifically, but
-it can be done if you don't mind hard-coding the name of the
-executable.  For example, a very common case is a test suite library,
-where you want to be able to use the test suite in a higher level,
-combined test suite library, and you also want to be able to run the
-specific test suite as an executable.  Here's how the
-strings-test-suite library does it::
-
-  define method main () => ()
-    let filename = locator-name(as(<file-locator>, application-name()));
-    if (split(filename, ".")[0] = "strings-test-suite")
-      run-test-application(strings-test-suite);
-    end;
-  end method main;
-
-  begin
-    main()
-  end;
-
-The application-name function lives in operating-system:system.
-locator-name lives in locators:system.
-
-One proposal is to specify the main function in the library's .lid
-file.  The run-time would run all top-level code and then call the
-declared main function, if any.
