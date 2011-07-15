@@ -1,50 +1,142 @@
 .. contents::
 
+See also, {{FAQ, the master FAQ}}.
+
+**...under construction...**
+
+
 General Questions
 -----------------
 
-What is this language? I have never heard of it before.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What is Dylan?
+~~~~~~~~~~~~~~
 
-One reductionist breakdown might be: Dylan = Scheme + CLOS + Smalltalk
-+ Pascal
+Dylan is a general purpose programming language that is designed to be fast,
+simple, and powerful.  The name "Dylan" is a portmanteau of "Dynamic" and
+"Language".
 
-* Scheme for basic semantics.
-* Common Lisp Object System (CLOS) for the object system, and exception handling.
-* Smalltalk for "objects all the way down".
-* A mix of C and Pascal for syntax.
+See {{About Dylan}} for more.
 
-An oversimplified historical view is that Dylan was originated by
-Apple as an attempt to bring some of the power of the Lisp family of
-languages to mainstream programming, by:
-
-* Rationalizing some historical baggage (e.g., replacing multiple
-  different sequence functions with "choose")
-* Dropping some of the more complex/advanced/tangled features
-* Making application/component delivery and deployment easier
-* Adding a more familiar syntax
-
-Dylan is often spoken of as a "replacement for C++", meaning that it
-has all the industrial-strength features, power, and flexibility of
-C++, but with the benefits of being thoughtfully designed from the
-ground up, rather than being kludged together over time.
-
-See also, {{About Dylan}}.
+.. Note: I would prefer to include About Dylan here but got an error.
 
 
-Is Dylan a functional languages?
+Where can I see some Dylan Code?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Here's a ``factorial`` function, just to give a flavor of the language::
 
-The functional community is split into two camps: The purists and the
-non-purists. A lot of Dylan code is written in a purely functional
-style.  Dylan does not preclude doing this, and in fact, it is easy to
-do so.  However, purists could rightfully point out that Dylan does
-not *require* a functional style.  Rule of thumb: If on a list of
-functional languages, for example, Common Lisp, Scheme or OCaml, are
-mentioned, then Dylan certainly should be too, because like them Dylan
-has all the features needed to be used in a purely functional style,
-but doesn't force you into programming that way.
+    ///
+    /// The canonical recursive function.
+    ///
+
+    define function factorial (n :: <integer>) => (n! :: <integer>)
+      case
+        n < 0     => error("Can't take factorial of negative integer: %d\n", n);
+        n = 0     => 1;
+        otherwise => n * factorial(n - 1);
+      end
+    end;
+
+For more, take a look at these {{code examples}}.
+
+
+What is the history of Dylan?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*TODO*
+
+
+Are there any books on Dylan?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*TODO*
+
+
+What development tools support Dylan?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*TODO*
+
+
+How does Dylan compare with C++?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*TODO*
+
+
+How does Dylan compare with Java?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*TODO*
+
+
+How does Dylan compare with Python?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*TODO*
+
+
+What platforms does Dylan run on?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Unfortunately the answer to this is complicated.  This is admittedly Dylan's
+weakest point right now.
+
+Both {{dylan compilers}} run on a wide variety of platforms, but there are no
+pre-built binaries for most of the platforms and building them from source is
+not as easy as it could be.  (We would love to have volunteers to help here!)
+
+Both compilers only support 32-bit systems.  They can be run on 64-bit systems
+in 32-bit mode, but building them for this configuration is not yet as easy as
+it could be.
+
+The best supported systems are currently 32-bit Linux and 32-bit Windows.
+{{Open Dylan}} provides a full-featured IDE for Windows.
+
+
+
+Where can I download Dylan from?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+See the {{download}} page.
+
+
+What Dylan compilers are available?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+See the {{Dylan Compilers}} page.
+
+
+Is Dylan object-oriented?
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Yes.  In Dylan, everything is an object, even low-level types like integers and
+functions.  However, the object model in Dylan is different that of most other
+mainstream languages.  Methods do not belong to a specific class.  Instead
+Dylan uses {{generic functions}}, which live at the module level, to hold a set
+of methods that have a shared API.  When a generic function is invoked, the
+method which most specifically matches the argument types is executed.  This
+mechanism is known as "multimethods" or "multiple dispatch".
+
+Even though Dylan is OO, we like to say Dylan is *not* object-obsessed!
+
+
+Is Dylan functional?
+~~~~~~~~~~~~~~~~~~~~
+
+Yes.  Dylan fully supports functional programming style with lexical scoping,
+first-class functions, local functions, closures, various built-in functional
+APIs, and all statements return a value.
+
+
+Where can I find other people using Dylan?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+See the {{Community}} page.
+
+
+Programming Questions
+---------------------
 
 Does Dylan suffer the same flaw as C++ in presence of "diamond inheritance"?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -267,18 +359,44 @@ OS changes.  We are working to fix that.
 How Can I Implement the Singleton Pattern?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-FILL ME IN
+*TODO*
 
 
-Dispatching
------------
+Does Dylan allow dispatching on instances?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Why does Dylan allow dispatching on instances?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Yes!  For example, here's one way (not the best way) to define ``factorial`` by
+using "singleton dispatch"::
 
-In Dylan it gets used for separating public abstract interface classes
-and private concrete implementation classes.  See {{How to build a
-mechanism for dynamic dispatching?}}
+  define constant <Z+> = limited(<integer>, min: 1);
+
+  define method factorial (n == 0) => (n! :: <integer>)
+    1
+  end;
+
+  define method factorial (n :: <Z+>) => (n! :: <integer>)
+    n * factorial(n - 1)
+  end;
+
+``factorial(2)`` will initially call the second method and then the recursive
+call will be to the first method because n = 0.  Note that ``n == 0`` is
+syntactic sugar.  The first method could also have been written this way::
+
+  define method factorial (n :: singleton(0)) => (n! :: <integer>)
+    1
+  end;
+
+{{drm: singleton}} defines a type that matches a specific object, essentially
+by pointer comparison.  To belabor the point a little bit, you could also write
+this::
+
+  define constant <zero> = singleton(0);
+
+  define method factorial (n :: <zero>) => (n! :: <integer>)
+    1
+  end;
+
+
 
 What's the use of an abstract interface if only one implementation can exist?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -293,9 +411,6 @@ say  ::
 you actually get an instance of a different concrete subclass of
 <button> depending on what platform you're on.
 
-
-Other Questions
----------------
 
 How can I make my library work as both an executable and a used library?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
