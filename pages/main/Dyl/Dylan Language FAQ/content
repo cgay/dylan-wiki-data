@@ -2,6 +2,7 @@ See also, {{FAQ, the master FAQ}}.
 
 **...under construction...**
 
+
 .. contents::
 
 
@@ -110,7 +111,7 @@ See the {{download}} page.
 What Dylan compilers are available?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-See the Dylan Compilers page.
+See the {{dylan compilers}} page.
 
 
 Is Dylan object-oriented?
@@ -215,8 +216,8 @@ file.  The run-time would run all top-level code and then call the
 declared main function, if any.
 
 
-Old FAQ Questions (to be retired)
----------------------------------
+Old FAQ Questions (to be retired or fixed)
+------------------------------------------
 
 What's the use of an abstract interface if only one implementation can exist?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
